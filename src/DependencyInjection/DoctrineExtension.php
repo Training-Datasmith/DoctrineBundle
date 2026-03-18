@@ -1289,23 +1289,16 @@ final class DoctrineExtension extends Extension
     ): string {
         $aliasId = $this->getObjectManagerElementName(sprintf('%s_%s', $objectManagerName, $cacheName));
 
-        switch ($cacheDriver['type'] ?? 'pool') {
-            case 'service':
-                $serviceId = $cacheDriver['id'];
-                break;
-
-            case 'pool':
-                $serviceId = $cacheDriver['pool'] ?? $this->createArrayAdapterCachePool($container, $objectManagerName, $cacheName);
-                break;
-
-            default:
-                throw new InvalidArgumentException(sprintf(
-                    'Unknown cache of type "%s" configured for cache "%s" in entity manager "%s".',
-                    $cacheDriver['type'],
-                    $cacheName,
-                    $objectManagerName,
-                ));
-        }
+        $serviceId = match ($cacheDriver['type'] ?? 'pool') {
+            'service' => $cacheDriver['id'],
+            'pool' => $cacheDriver['pool'] ?? $this->createArrayAdapterCachePool($container, $objectManagerName, $cacheName),
+            default => throw new InvalidArgumentException(sprintf(
+                'Unknown cache of type "%s" configured for cache "%s" in entity manager "%s".',
+                $cacheDriver['type'],
+                $cacheName,
+                $objectManagerName,
+            )),
+        };
 
         $container->setAlias($aliasId, new Alias($serviceId, false));
 
@@ -1402,25 +1395,14 @@ final class DoctrineExtension extends Extension
      */
     private function getMetadataDriverClass(string $driverType): string
     {
-        switch ($driverType) {
-            case 'driver_chain':
-                return MappingDriverChain::class;
-
-            case 'xml':
-                return SimplifiedXmlDriver::class;
-
-            case 'php':
-                return PHPDriver::class;
-
-            case 'staticphp':
-                return StaticPHPDriver::class;
-
-            case 'attribute':
-                return AttributeDriver::class;
-
-            default:
-                throw new LogicException(sprintf('Unknown "%s" metadata driver type.', $driverType));
-        }
+        return match ($driverType) {
+            'driver_chain' => MappingDriverChain::class,
+            'xml' => SimplifiedXmlDriver::class,
+            'php' => PHPDriver::class,
+            'staticphp' => StaticPHPDriver::class,
+            'attribute' => AttributeDriver::class,
+            default => throw new LogicException(sprintf('Unknown "%s" metadata driver type.', $driverType)),
+        };
     }
 
     private function loadMessengerServices(ContainerBuilder $container): void

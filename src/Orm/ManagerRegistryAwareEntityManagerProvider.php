@@ -12,10 +12,10 @@ use RuntimeException;
 use function get_debug_type;
 use function sprintf;
 
-final class ManagerRegistryAwareEntityManagerProvider implements EntityManagerProvider
+final readonly class ManagerRegistryAwareEntityManagerProvider implements EntityManagerProvider
 {
     public function __construct(
-        private readonly ManagerRegistry $managerRegistry,
+        private ManagerRegistry $managerRegistry,
     ) {
     }
 

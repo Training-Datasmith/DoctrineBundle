@@ -41,7 +41,7 @@ use function strtoupper;
  *
  * @internal
  */
-final class Configuration implements ConfigurationInterface
+final readonly class Configuration implements ConfigurationInterface
 {
     /** @param bool $debug Whether to use the debug mode */
     public function __construct(private bool $debug)
@@ -71,7 +71,7 @@ final class Configuration implements ConfigurationInterface
             ->children()
             ->arrayNode('dbal')
                 ->beforeNormalization()
-                    ->ifTrue(static function ($v) use ($excludedKeys) {
+                    ->ifTrue(static function ($v) use ($excludedKeys): bool {
                         if (! is_array($v)) {
                             return false;
                         }
@@ -83,7 +83,7 @@ final class Configuration implements ConfigurationInterface
                         // Is there actually anything to use once excluded keys are considered?
                         return (bool) array_diff_key($v, $excludedKeys);
                     })
-                    ->then(static function ($v) use ($excludedKeys) {
+                    ->then(static function (array $v) use ($excludedKeys): array {
                         $connection = [];
                         foreach ($v as $key => $value) {
                             if (isset($excludedKeys[$key])) {
@@ -109,7 +109,7 @@ final class Configuration implements ConfigurationInterface
                         ->prototype('array')
                             ->beforeNormalization()
                                 ->ifString()
-                                ->then(static fn ($v) => ['class' => $v])
+                                ->then(static fn ($v): array => ['class' => $v])
                             ->end()
                             ->children()
                                 ->scalarNode('class')->isRequired()->end()
@@ -126,7 +126,7 @@ final class Configuration implements ConfigurationInterface
                         ->info('Defines a driver for given URL schemes. Schemes being driver names cannot be redefined. However, other default schemes can be overwritten.')
                         ->validate()
                             ->always()
-                            ->then(static function (array $value) {
+                            ->then(static function (array $value): array {
                                 $unsupportedSchemes = [];
 
                                 foreach ($value as $scheme => $driver) {
@@ -333,8 +333,8 @@ final class Configuration implements ConfigurationInterface
                 ->end()
             ->end()
             ->beforeNormalization()
-                ->ifTrue(static fn ($v) => ! isset($v['sessionMode']) && isset($v['session_mode']))
-                ->then(static function ($v) {
+                ->ifTrue(static fn ($v): bool => ! isset($v['sessionMode']) && isset($v['session_mode']))
+                ->then(static function (array $v) {
                     $v['sessionMode'] = $v['session_mode'];
                     unset($v['session_mode']);
 
@@ -342,8 +342,8 @@ final class Configuration implements ConfigurationInterface
                 })
             ->end()
             ->beforeNormalization()
-                ->ifTrue(static fn ($v) => ! isset($v['MultipleActiveResultSets']) && isset($v['multiple_active_result_sets']))
-                ->then(static function ($v) {
+                ->ifTrue(static fn ($v): bool => ! isset($v['MultipleActiveResultSets']) && isset($v['multiple_active_result_sets']))
+                ->then(static function (array $v) {
                     $v['MultipleActiveResultSets'] = $v['multiple_active_result_sets'];
                     unset($v['multiple_active_result_sets']);
 
@@ -370,7 +370,7 @@ final class Configuration implements ConfigurationInterface
             ->children()
                 ->arrayNode('orm')
                     ->beforeNormalization()
-                        ->ifTrue(static function ($v) use ($excludedKeys) {
+                        ->ifTrue(static function ($v) use ($excludedKeys): bool {
                             if (! empty($v) && ! class_exists(EntityManager::class)) {
                                 throw new LogicException('The doctrine/orm package is required when the doctrine.orm config is set.');
                             }
@@ -386,7 +386,7 @@ final class Configuration implements ConfigurationInterface
                             // Is there actually anything to use once excluded keys are considered?
                             return (bool) array_diff_key($v, $excludedKeys);
                         })
-                        ->then(static function ($v) use ($excludedKeys) {
+                        ->then(static function (array $v) use ($excludedKeys): array {
                             $entityManager = [];
                             foreach ($v as $key => $value) {
                                 if (isset($excludedKeys[$key])) {
@@ -407,7 +407,7 @@ final class Configuration implements ConfigurationInterface
                         ->booleanNode('enable_native_lazy_objects')
                             ->defaultTrue()
                             ->validate()
-                                ->ifTrue(static fn ($v) => $v === false)
+                                ->ifTrue(static fn ($v): bool => $v === false)
                                 ->thenInvalid('The setting "enable_native_lazy_objects" can no longer be disabled and should not be set')
                             ->end()
                             ->setDeprecated(
@@ -422,7 +422,7 @@ final class Configuration implements ConfigurationInterface
                                 ->booleanNode('auto_mapping')
                                     ->defaultFalse()
                                     ->validate()
-                                        ->ifTrue(static fn ($v) => $v !== false)
+                                        ->ifTrue(static fn ($v): bool => $v !== false)
                                         ->thenInvalid('The setting "controller_resolver.auto_mapping" can no longer be enabled and must be set to false')
                                     ->end()
                                     ->setDeprecated(
@@ -476,7 +476,7 @@ final class Configuration implements ConfigurationInterface
         $treeBuilder = new TreeBuilder('entity_listeners');
         $node        = $treeBuilder->getRootNode();
 
-        $normalizer = static function ($mappings) {
+        $normalizer = static function ($mappings): array {
             $entities = [];
 
             foreach ($mappings as $entityClass => $mapping) {
@@ -516,7 +516,7 @@ final class Configuration implements ConfigurationInterface
         $node
             ->beforeNormalization()
                 // Yaml normalization
-                ->ifTrue(static fn ($v) => is_array(reset($v)) && is_string(key(reset($v))))
+                ->ifTrue(static fn ($v): bool => is_array(reset($v)) && is_string(key(reset($v))))
                 ->then($normalizer)
             ->end()
             ->fixXmlConfig('entity', 'entities')
@@ -639,7 +639,7 @@ final class Configuration implements ConfigurationInterface
                         ->prototype('array')
                             ->beforeNormalization()
                                 ->ifString()
-                                ->then(static fn ($v) => ['type' => $v])
+                                ->then(static fn ($v): array => ['type' => $v])
                             ->end()
                             ->treatNullLike([])
                             ->treatFalseLike(['mapping' => false])
@@ -682,12 +682,12 @@ final class Configuration implements ConfigurationInterface
                         ->prototype('array')
                             ->beforeNormalization()
                                 ->ifString()
-                                ->then(static fn ($v) => ['class' => $v])
+                                ->then(static fn ($v): array => ['class' => $v])
                             ->end()
                             ->beforeNormalization()
                                 // The content of the XML node is returned as the "value" key so we need to rename it
-                                ->ifTrue(static fn ($v) => is_array($v) && isset($v['value']))
-                                ->then(static function ($v) {
+                                ->ifTrue(static fn ($v): bool => is_array($v) && isset($v['value']))
+                                ->then(static function (array $v) {
                                     $v['class'] = $v['value'];
                                     unset($v['value']);
 
@@ -714,7 +714,7 @@ final class Configuration implements ConfigurationInterface
                         ->prototype('scalar')
                             ->beforeNormalization()
                                 ->ifString()
-                                ->then(static fn (string $v) => constant(ClassMetadata::class . '::GENERATOR_TYPE_' . strtoupper($v)))
+                                ->then(static fn (string $v): mixed => constant(ClassMetadata::class . '::GENERATOR_TYPE_' . strtoupper($v)))
                             ->end()
                         ->end()
                     ->end()

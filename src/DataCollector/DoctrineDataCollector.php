@@ -153,8 +153,10 @@ class DoctrineDataCollector extends BaseCollector
             assert($cacheConfiguration instanceof CacheConfiguration);
             $cacheLoggerChain = $cacheConfiguration->getCacheLogger();
             assert($cacheLoggerChain instanceof CacheLoggerChain || $cacheLoggerChain === null);
-
-            if (! $cacheLoggerChain || ! $cacheLoggerChain->getLogger('statistics')) {
+            if (! $cacheLoggerChain) {
+                continue;
+            }
+            if (! $cacheLoggerChain->getLogger('statistics')) {
                 continue;
             }
 
@@ -247,7 +249,7 @@ class DoctrineDataCollector extends BaseCollector
 
     public function getInvalidEntityCount(): int
     {
-        return $this->invalidEntityCount ??= array_sum(array_map('count', $this->data['errors']));
+        return $this->invalidEntityCount ??= array_sum(array_map(count(...), $this->data['errors']));
     }
 
     public function getManagedEntityCount(): int
@@ -298,13 +300,7 @@ class DoctrineDataCollector extends BaseCollector
                 $totalExecutionMS += $query['executionMS'];
             }
 
-            usort($connectionGroupedQueries, static function ($a, $b) {
-                if ($a['executionMS'] === $b['executionMS']) {
-                    return 0;
-                }
-
-                return $a['executionMS'] < $b['executionMS'] ? 1 : -1;
-            });
+            usort($connectionGroupedQueries, static fn(array $a, array $b) => $b['executionMS'] <=> $a['executionMS']);
             $this->groupedQueries[$connection] = $connectionGroupedQueries;
         }
 

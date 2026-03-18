@@ -65,7 +65,10 @@ final class MiddlewaresPass implements CompilerPassInterface
                 $middlewareRefs[$id] = [new Reference($childId), ++$i];
 
                 $class = $abstractDef->getClass();
-                if ($class === null || ! is_subclass_of($class, ConnectionNameAwareInterface::class)) {
+                if ($class === null) {
+                    continue;
+                }
+                if (! is_subclass_of($class, ConnectionNameAwareInterface::class)) {
                     continue;
                 }
 
@@ -73,7 +76,7 @@ final class MiddlewaresPass implements CompilerPassInterface
             }
 
             $middlewareRefs = array_map(
-                static fn (string $id, array $ref) => [
+                static fn (string $id, array $ref): array => [
                     $middlewareConnections[$id][$name] ?? $middlewarePriorities[$id] ?? 0,
                     $ref[1],
                     $ref[0],

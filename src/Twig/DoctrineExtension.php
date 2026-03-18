@@ -51,9 +51,9 @@ class DoctrineExtension extends AbstractExtension
     public function getFilters(): array
     {
         return [
-            new TwigFilter('doctrine_prettify_sql', [$this, 'prettifySql'], ['is_safe' => ['html']]),
-            new TwigFilter('doctrine_format_sql', [$this, 'formatSql'], ['is_safe' => ['html']]),
-            new TwigFilter('doctrine_replace_query_parameters', [$this, 'replaceQueryParameters']),
+            new TwigFilter('doctrine_prettify_sql', $this->prettifySql(...), ['is_safe' => ['html']]),
+            new TwigFilter('doctrine_format_sql', $this->formatSql(...), ['is_safe' => ['html']]),
+            new TwigFilter('doctrine_replace_query_parameters', $this->replaceQueryParameters(...)),
         ];
     }
 
@@ -115,7 +115,7 @@ class DoctrineExtension extends AbstractExtension
 
         $keys = array_keys($parameters);
 
-        if (count(array_filter($keys, 'is_int')) === count($keys)) {
+        if (count(array_filter($keys, is_int(...))) === count($keys)) {
             $parameters = array_values($parameters);
         }
 

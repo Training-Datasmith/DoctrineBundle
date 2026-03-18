@@ -28,10 +28,12 @@ final class CacheSchemaSubscriberPass implements CompilerPassInterface
 
         $cacheAdaptersReferences = [];
         foreach ($container->getDefinitions() as $id => $definition) {
-            if ($definition->isAbstract() || $definition->isSynthetic()) {
+            if ($definition->isAbstract()) {
                 continue;
             }
-
+            if ($definition->isSynthetic()) {
+                continue;
+            }
             if ($definition->getClass() !== DoctrineDbalAdapter::class) {
                 continue;
             }

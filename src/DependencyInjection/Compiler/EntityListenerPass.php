@@ -41,7 +41,7 @@ final class EntityListenerPass implements CompilerPassInterface
             }
         }
 
-        usort($serviceTags, static fn (array $a, array $b) => ($b['attributes']['priority'] ?? 0) <=> ($a['attributes']['priority'] ?? 0));
+        usort($serviceTags, static fn (array $a, array $b): int => ($b['attributes']['priority'] ?? 0) <=> ($a['attributes']['priority'] ?? 0));
 
         foreach ($serviceTags as $tag) {
             $id            = $tag['serviceId'];
@@ -130,9 +130,9 @@ final class EntityListenerPass implements CompilerPassInterface
     {
         $resolverClass = $this->getConcreteDefinitionClass($resolver, $container, $id);
 
-        if (substr($resolverClass, 0, 1) === '%') {
+        if (str_starts_with($resolverClass, '%')) {
             // resolve container parameter first
-            $resolverClass = $container->getParameterBag()->resolveValue($resolverClass);
+            return $container->getParameterBag()->resolveValue($resolverClass);
         }
 
         return $resolverClass;
