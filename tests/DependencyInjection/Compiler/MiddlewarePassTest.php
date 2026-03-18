@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Doctrine\Bundle\DoctrineBundle\Tests\DependencyInjection\Compiler;
 
+use function array_map;
+use function class_exists;
+
 use Doctrine\Bundle\DoctrineBundle\Attribute\AsMiddleware;
 use Doctrine\Bundle\DoctrineBundle\DependencyInjection\Compiler\MiddlewaresPass;
 use Doctrine\Bundle\DoctrineBundle\DependencyInjection\DoctrineExtension;
@@ -11,19 +14,21 @@ use Doctrine\Bundle\DoctrineBundle\Middleware\ConnectionNameAwareInterface;
 use Doctrine\Bundle\DoctrineBundle\Middleware\IdleConnectionMiddleware;
 use Doctrine\DBAL\Driver;
 use Doctrine\DBAL\Driver\Middleware;
+
+use function implode;
+
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\NullLogger;
+
+use function sprintf;
+
 use Symfony\Bridge\Doctrine\Middleware\IdleConnection\Listener;
+
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
 use Symfony\Component\DependencyInjection\Reference;
-
-use function array_map;
-use function class_exists;
-use function implode;
-use function sprintf;
 
 class MiddlewarePassTest extends TestCase
 {

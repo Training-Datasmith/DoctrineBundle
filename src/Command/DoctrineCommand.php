@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace Doctrine\Bundle\DoctrineBundle\Command;
 
+use function assert;
+
 use Doctrine\DBAL\Connection;
 use Doctrine\Persistence\ManagerRegistry;
-use Symfony\Component\Console\Command\Command;
 
-use function assert;
+use Symfony\Component\Console\Command\Command;
 
 /**
  * Base class for Doctrine console commands to extend from.

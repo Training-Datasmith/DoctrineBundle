@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace Doctrine\Bundle\DoctrineBundle\Tests\Middleware;
 
+use function count;
+
 use Doctrine\Bundle\DoctrineBundle\Middleware\BacktraceDebugDataHolder;
 use Doctrine\Bundle\DoctrineBundle\Tests\TestCase;
-use Symfony\Bridge\Doctrine\Middleware\Debug\Query;
 
-use function count;
 use function strpos;
+
+use Symfony\Bridge\Doctrine\Middleware\Debug\Query;
 
 class BacktraceDebugDataHolderTest extends TestCase
 {

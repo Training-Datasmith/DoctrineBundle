@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace Doctrine\Bundle\DoctrineBundle\Tests;
 
-use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-
 use function strpos;
+
+use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
+
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 class TestCaseAllPublicCompilerPass implements CompilerPassInterface
 {

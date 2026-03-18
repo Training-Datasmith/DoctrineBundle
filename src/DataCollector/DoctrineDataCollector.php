@@ -4,6 +4,12 @@ declare(strict_types=1);
 
 namespace Doctrine\Bundle\DoctrineBundle\DataCollector;
 
+use function array_map;
+use function array_sum;
+use function arsort;
+use function assert;
+use function count;
+
 use Doctrine\DBAL\Types\Type;
 use Doctrine\ORM\Cache\CacheConfiguration;
 use Doctrine\ORM\Cache\Logging\CacheLoggerChain;
@@ -11,17 +17,13 @@ use Doctrine\ORM\Cache\Logging\StatisticsCacheLogger;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Tools\SchemaValidator;
 use Doctrine\Persistence\ManagerRegistry;
+
 use Symfony\Bridge\Doctrine\DataCollector\DoctrineDataCollector as BaseCollector;
 use Symfony\Bridge\Doctrine\Middleware\Debug\DebugDataHolder;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Throwable;
 
-use function array_map;
-use function array_sum;
-use function arsort;
-use function assert;
-use function count;
 use function usort;
 
 /**
@@ -300,7 +302,7 @@ class DoctrineDataCollector extends BaseCollector
                 $totalExecutionMS += $query['executionMS'];
             }
 
-            usort($connectionGroupedQueries, static fn(array $a, array $b) => $b['executionMS'] <=> $a['executionMS']);
+            usort($connectionGroupedQueries, static fn (array $a, array $b) => $b['executionMS'] <=> $a['executionMS']);
             $this->groupedQueries[$connection] = $connectionGroupedQueries;
         }
 

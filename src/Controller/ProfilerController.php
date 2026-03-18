@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Doctrine\Bundle\DoctrineBundle\Controller;
 
+use function assert;
+
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Platforms\OraclePlatform;
 use Doctrine\DBAL\Platforms\SQLitePlatform;
@@ -15,9 +17,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Profiler\Profiler;
 use Symfony\Component\VarDumper\Cloner\Data;
 use Throwable;
-use Twig\Environment;
 
-use function assert;
+use Twig\Environment;
 
 /** @internal */
 class ProfilerController

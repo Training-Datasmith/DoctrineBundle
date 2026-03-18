@@ -5,9 +5,10 @@ declare(strict_types=1);
 namespace Doctrine\Bundle\DoctrineBundle\Tests\Twig;
 
 use Doctrine\Bundle\DoctrineBundle\Twig\DoctrineExtension;
-use PHPUnit\Framework\TestCase;
 
 use function pack;
+
+use PHPUnit\Framework\TestCase;
 
 class DoctrineExtensionTest extends TestCase
 {

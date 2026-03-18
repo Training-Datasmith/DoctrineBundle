@@ -4,10 +4,20 @@ declare(strict_types=1);
 
 namespace Doctrine\Bundle\DoctrineBundle\Tests;
 
+use function class_exists;
+
 use Doctrine\Bundle\DoctrineBundle\DataCollector\DoctrineDataCollector;
 use Doctrine\Bundle\DoctrineBundle\Twig\DoctrineExtension;
 use Doctrine\Persistence\ManagerRegistry;
+
+use function html_entity_decode;
+
 use PHPUnit\Framework\TestCase as BaseTestCase;
+
+use function preg_match;
+use function preg_quote;
+use function str_replace;
+
 use Symfony\Bridge\Doctrine\Middleware\Debug\DebugDataHolder;
 use Symfony\Bridge\Doctrine\Middleware\Debug\Query;
 use Symfony\Bridge\Twig\Extension\CodeExtension as CodeExtensionLegacy;
@@ -22,17 +32,12 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\DataCollector\RequestDataCollector;
 use Symfony\Component\HttpKernel\Fragment\FragmentHandler;
 use Symfony\Component\HttpKernel\Profiler\Profile;
+
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
 use Twig\Runtime\EscaperRuntime;
 use Twig\RuntimeLoader\FactoryRuntimeLoader;
-
-use function class_exists;
-use function html_entity_decode;
-use function preg_match;
-use function preg_quote;
-use function str_replace;
 
 class ProfilerTest extends BaseTestCase
 {

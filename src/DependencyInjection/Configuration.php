@@ -4,18 +4,6 @@ declare(strict_types=1);
 
 namespace Doctrine\Bundle\DoctrineBundle\DependencyInjection;
 
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityRepository;
-use Doctrine\ORM\Mapping\ClassMetadata;
-use Doctrine\ORM\Mapping\ClassMetadataFactory;
-use InvalidArgumentException;
-use RuntimeException;
-use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
-use Symfony\Component\Config\Definition\Builder\NodeDefinition;
-use Symfony\Component\Config\Definition\Builder\TreeBuilder;
-use Symfony\Component\Config\Definition\ConfigurationInterface;
-use Symfony\Component\DependencyInjection\Exception\LogicException;
-
 use function array_diff_key;
 use function array_intersect_key;
 use function array_key_exists;
@@ -24,14 +12,33 @@ use function array_pop;
 use function class_exists;
 use function constant;
 use function count;
+
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Mapping\ClassMetadata;
+
+use Doctrine\ORM\Mapping\ClassMetadataFactory;
+
 use function implode;
 use function in_array;
+
+use InvalidArgumentException;
+
 use function is_array;
 use function is_string;
 use function key;
 use function reset;
+
+use RuntimeException;
+
 use function sprintf;
 use function strtoupper;
+
+use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
+use Symfony\Component\Config\Definition\Builder\NodeDefinition;
+use Symfony\Component\Config\Definition\Builder\TreeBuilder;
+use Symfony\Component\Config\Definition\ConfigurationInterface;
+use Symfony\Component\DependencyInjection\Exception\LogicException;
 
 /**
  * This class contains the configuration information for the bundle

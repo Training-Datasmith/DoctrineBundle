@@ -6,18 +6,20 @@ namespace Doctrine\Bundle\DoctrineBundle\DependencyInjection\Compiler;
 
 use Doctrine\Bundle\DoctrineBundle\Mapping\ContainerEntityListenerResolver;
 use Doctrine\Bundle\DoctrineBundle\Mapping\EntityListenerServiceResolver;
-use Symfony\Component\DependencyInjection\ChildDefinition;
-use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
-use Symfony\Component\DependencyInjection\Compiler\ServiceLocatorTagPass;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Definition;
-use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
-use Symfony\Component\DependencyInjection\Reference;
 
 use function is_a;
 use function method_exists;
 use function sprintf;
-use function substr;
+
+use Symfony\Component\DependencyInjection\ChildDefinition;
+use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
+use Symfony\Component\DependencyInjection\Compiler\ServiceLocatorTagPass;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+
+use Symfony\Component\DependencyInjection\Definition;
+use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
+use Symfony\Component\DependencyInjection\Reference;
+
 use function usort;
 
 /**

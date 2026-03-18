@@ -4,12 +4,15 @@ declare(strict_types=1);
 
 namespace Doctrine\Bundle\DoctrineBundle\Mapping;
 
+use function gettype;
+
 use InvalidArgumentException;
+
+use function is_object;
+
 use Psr\Container\ContainerInterface;
 use RuntimeException;
 
-use function gettype;
-use function is_object;
 use function sprintf;
 use function trim;
 

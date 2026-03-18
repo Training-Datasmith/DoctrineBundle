@@ -7,10 +7,12 @@ namespace Doctrine\Bundle\DoctrineBundle\Tests\Repository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
-use LogicException;
-use PHPUnit\Framework\TestCase;
 
 use function interface_exists;
+
+use LogicException;
+
+use PHPUnit\Framework\TestCase;
 
 class ServiceEntityRepositoryTest extends TestCase
 {

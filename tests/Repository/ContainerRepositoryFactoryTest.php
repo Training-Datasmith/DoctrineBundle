@@ -12,13 +12,15 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\Repository\RepositoryFactory;
+
+use function interface_exists;
+
 use PHPUnit\Framework\TestCase;
 use ReflectionMethod;
 use RuntimeException;
 use stdClass;
-use Symfony\Component\DependencyInjection\Container;
 
-use function interface_exists;
+use Symfony\Component\DependencyInjection\Container;
 
 class ContainerRepositoryFactoryTest extends TestCase
 {

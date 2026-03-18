@@ -4,18 +4,21 @@ declare(strict_types=1);
 
 namespace Doctrine\Bundle\DoctrineBundle\DependencyInjection\Compiler;
 
+use function array_key_exists;
+use function array_keys;
+use function array_map;
+use function array_values;
+
 use Doctrine\Bundle\DoctrineBundle\Middleware\ConnectionNameAwareInterface;
+
+use function is_subclass_of;
+use function sprintf;
+
 use Symfony\Component\DependencyInjection\ChildDefinition;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 
-use function array_key_exists;
-use function array_keys;
-use function array_map;
-use function array_values;
-use function is_subclass_of;
-use function sprintf;
 use function usort;
 
 /** @internal */

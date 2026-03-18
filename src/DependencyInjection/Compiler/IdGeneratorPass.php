@@ -4,19 +4,22 @@ declare(strict_types=1);
 
 namespace Doctrine\Bundle\DoctrineBundle\DependencyInjection\Compiler;
 
+use function array_combine;
+use function array_keys;
+use function array_map;
+
 use Doctrine\Bundle\DoctrineBundle\Mapping\ClassMetadataFactory;
 use Doctrine\Bundle\DoctrineBundle\Mapping\MappingDriver;
 use Doctrine\ORM\Mapping\ClassMetadataFactory as ORMClassMetadataFactory;
+
+use function sprintf;
+
 use Symfony\Component\DependencyInjection\Alias;
+
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\Compiler\ServiceLocatorTagPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
-
-use function array_combine;
-use function array_keys;
-use function array_map;
-use function sprintf;
 
 /** @internal */
 final class IdGeneratorPass implements CompilerPassInterface

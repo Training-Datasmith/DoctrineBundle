@@ -7,14 +7,17 @@ namespace Doctrine\Bundle\DoctrineBundle\Tests;
 use Doctrine\Bundle\DoctrineBundle\DependencyInjection\Compiler\CacheSchemaSubscriberPass;
 use Doctrine\Bundle\DoctrineBundle\DependencyInjection\DoctrineExtension;
 use Doctrine\ORM\EntityManagerInterface;
+
+use function interface_exists;
+
 use Symfony\Bundle\FrameworkBundle\DependencyInjection\FrameworkExtension;
 use Symfony\Component\DependencyInjection\Alias;
 use Symfony\Component\DependencyInjection\Compiler\PassConfig;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
+
 use Symfony\Component\DependencyInjection\Reference;
 
-use function interface_exists;
 use function sys_get_temp_dir;
 
 class CacheSchemaSubscriberTest extends TestCase

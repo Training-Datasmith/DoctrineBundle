@@ -4,19 +4,22 @@ declare(strict_types=1);
 
 namespace Doctrine\Bundle\DoctrineBundle\Tests\DependencyInjection\Compiler;
 
+use function class_exists;
+
 use Doctrine\Bundle\DoctrineBundle\DependencyInjection\Compiler\EntityListenerPass;
 use Doctrine\Bundle\DoctrineBundle\Mapping\ContainerEntityListenerResolver;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Events;
 use Doctrine\ORM\Tools\AttachEntityListenersListener;
+
+use function interface_exists;
+
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
+
 use stdClass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-
-use function class_exists;
-use function interface_exists;
 
 class EntityListenerPassTest extends TestCase
 {
@@ -132,7 +135,6 @@ class TestListener
     {
     }
 }
-
 
 class TestListener2
 {

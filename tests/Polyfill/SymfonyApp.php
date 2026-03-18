@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Doctrine\Bundle\DoctrineBundle\Tests\Polyfill;
 
-use Symfony\Component\Console\Application;
-use Symfony\Component\Console\Command\Command;
-
 use function assert;
 use function method_exists;
+
+use Symfony\Component\Console\Application;
+use Symfony\Component\Console\Command\Command;
 
 /**
  * Necessary until support for Symfony < 7.4 is dropped.

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Doctrine\Bundle\DoctrineBundle\Tests;
 
+use function assert;
+
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\Bundle\DoctrineBundle\Tests\DependencyInjection\Fixtures\TestKernel;
 use Doctrine\DBAL\Connection;
@@ -11,12 +13,14 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ObjectManager;
 use Fixtures\Bundles\RepositoryServiceBundle\Entity\TestCustomClassRepoEntity;
 use Fixtures\Bundles\RepositoryServiceBundle\Repository\TestCustomClassRepoRepository;
-use InvalidArgumentException;
-use Symfony\Component\DependencyInjection\Container;
 
-use function assert;
 use function interface_exists;
+
+use InvalidArgumentException;
+
 use function restore_exception_handler;
+
+use Symfony\Component\DependencyInjection\Container;
 
 class RegistryTest extends TestCase
 {

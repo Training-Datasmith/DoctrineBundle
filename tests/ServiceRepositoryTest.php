@@ -15,12 +15,15 @@ use Fixtures\Bundles\RepositoryServiceBundle\Entity\TestDefaultRepoEntity;
 use Fixtures\Bundles\RepositoryServiceBundle\Repository\TestCustomClassRepoRepository;
 use Fixtures\Bundles\RepositoryServiceBundle\Repository\TestCustomServiceRepoRepository;
 use Fixtures\Bundles\RepositoryServiceBundle\RepositoryServiceBundle;
+
+use function interface_exists;
+
 use Symfony\Bundle\FrameworkBundle\DependencyInjection\FrameworkExtension;
 use Symfony\Component\DependencyInjection\Alias;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
 
-use function interface_exists;
 use function sys_get_temp_dir;
 use function uniqid;
 

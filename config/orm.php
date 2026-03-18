@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 
+use const CASE_LOWER;
+
 use Doctrine\Bundle\DoctrineBundle\ManagerConfigurator;
 use Doctrine\Bundle\DoctrineBundle\Orm\ManagerRegistryAwareEntityManagerProvider;
 use Doctrine\Bundle\DoctrineBundle\Repository\ContainerRepositoryFactory;
@@ -44,9 +46,8 @@ use Symfony\Bridge\Doctrine\Security\User\EntityUserProvider;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntityValidator;
 use Symfony\Bridge\Doctrine\Validator\DoctrineInitializer;
 use Symfony\Component\DependencyInjection\ServiceLocator;
-use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 
-use const CASE_LOWER;
+use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 
 return static function (ContainerConfigurator $container): void {
     $container->services()

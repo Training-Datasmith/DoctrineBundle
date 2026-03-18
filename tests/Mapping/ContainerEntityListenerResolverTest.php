@@ -6,12 +6,14 @@ namespace Doctrine\Bundle\DoctrineBundle\Tests\Mapping;
 
 use Doctrine\Bundle\DoctrineBundle\Mapping\ContainerEntityListenerResolver;
 use Doctrine\ORM\EntityManagerInterface;
+
+use function interface_exists;
+
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
-use Symfony\Component\DependencyInjection\Container;
 
-use function interface_exists;
+use Symfony\Component\DependencyInjection\Container;
 
 class ContainerEntityListenerResolverTest extends TestCase
 {

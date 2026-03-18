@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace Doctrine\Bundle\DoctrineBundle\Tests\Dbal;
 
-use Doctrine\Bundle\DoctrineBundle\Dbal\RegexSchemaAssetFilter;
-use Doctrine\Bundle\DoctrineBundle\Dbal\SchemaAssetsFilterManager;
-use PHPUnit\Framework\TestCase;
-
 use function array_filter;
 use function array_values;
+
+use Doctrine\Bundle\DoctrineBundle\Dbal\RegexSchemaAssetFilter;
+
+use Doctrine\Bundle\DoctrineBundle\Dbal\SchemaAssetsFilterManager;
+use PHPUnit\Framework\TestCase;
 
 class SchemaAssetsFilterManagerTest extends TestCase
 {

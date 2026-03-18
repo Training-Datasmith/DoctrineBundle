@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace Doctrine\Bundle\DoctrineBundle\Tests\DependencyInjection;
 
+use function array_map;
+use function array_values;
+use function class_exists;
+
 use Closure;
 use Doctrine\Bundle\DoctrineBundle\Attribute\AsDoctrineListener;
 use Doctrine\Bundle\DoctrineBundle\Attribute\AsEntityListener;
@@ -22,20 +26,34 @@ use Doctrine\ORM\Mapping\Driver\AttributeDriver;
 use Doctrine\ORM\Mapping\Embeddable;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\MappedSuperclass;
+
+use function in_array;
+use function interface_exists;
+
 use InvalidArgumentException;
+
+use function is_dir;
+
 use LogicException;
+
+use function method_exists;
+
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\IgnoreDeprecations;
 use PHPUnit\Framework\Attributes\RequiresMethod;
 use PHPUnit\Framework\Attributes\TestWith;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
+
+use function sprintf;
+
 use Symfony\Bridge\Doctrine\ArgumentResolver\EntityValueResolver;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bridge\Doctrine\Middleware\IdleConnection\Driver;
 use Symfony\Component\Cache\Adapter\ArrayAdapter;
 use Symfony\Component\Cache\Adapter\PhpArrayAdapter;
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
+
 use Symfony\Component\DependencyInjection\ChildDefinition;
 use Symfony\Component\DependencyInjection\Compiler\ResolveChildDefinitionsPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -45,14 +63,6 @@ use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\Messenger\Bridge\Doctrine\Transport\DoctrineTransportFactory;
 use Symfony\Component\Messenger\MessageBusInterface;
 
-use function array_map;
-use function array_values;
-use function class_exists;
-use function in_array;
-use function interface_exists;
-use function is_dir;
-use function method_exists;
-use function sprintf;
 use function sys_get_temp_dir;
 
 class DoctrineExtensionTest extends TestCase

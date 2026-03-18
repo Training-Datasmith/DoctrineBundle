@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Doctrine\Bundle\DoctrineBundle;
 
+use function array_merge;
+
 use Doctrine\DBAL\Configuration;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Connection\StaticServerVersionProvider;
@@ -17,9 +19,9 @@ use Doctrine\DBAL\Exception\MalformedDsnException;
 use Doctrine\DBAL\Platforms\AbstractMySQLPlatform;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Tools\DsnParser;
+
 use Doctrine\DBAL\Types\Type;
 
-use function array_merge;
 use function is_subclass_of;
 
 use const PHP_EOL;

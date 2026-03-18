@@ -6,14 +6,18 @@ namespace Doctrine\Bundle\DoctrineBundle\Command;
 
 use Doctrine\DBAL\DriverManager;
 use Doctrine\DBAL\Platforms\PostgreSQLPlatform;
-use InvalidArgumentException;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
-use Throwable;
 
 use function in_array;
+
+use InvalidArgumentException;
+
 use function sprintf;
+
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
+
+use Symfony\Component\Console\Output\OutputInterface;
+use Throwable;
 
 /**
  * Database tool allows you to easily create your configured databases.

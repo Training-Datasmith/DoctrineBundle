@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace Doctrine\Bundle\DoctrineBundle\Dbal;
 
+use function assert;
+
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Tools\Console\ConnectionProvider;
-use Doctrine\Persistence\AbstractManagerRegistry;
 
-use function assert;
+use Doctrine\Persistence\AbstractManagerRegistry;
 
 class ManagerRegistryAwareConnectionProvider implements ConnectionProvider
 {

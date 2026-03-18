@@ -10,17 +10,19 @@ use Doctrine\ORM\Mapping\Driver\XmlDriver;
 use Doctrine\Persistence\Mapping\Driver\PHPDriver;
 use Doctrine\Persistence\Mapping\Driver\StaticPHPDriver;
 use Doctrine\Persistence\Mapping\Driver\SymfonyFileLocator;
-use Symfony\Bridge\Doctrine\DependencyInjection\CompilerPass\RegisterMappingsPass;
-use Symfony\Component\DependencyInjection\Definition;
-use Symfony\Component\DependencyInjection\Reference;
-use TypeError;
 
 use function func_get_arg;
 use function func_num_args;
 use function gettype;
 use function is_array;
+
 use function is_bool;
 use function sprintf;
+
+use Symfony\Bridge\Doctrine\DependencyInjection\CompilerPass\RegisterMappingsPass;
+use Symfony\Component\DependencyInjection\Definition;
+use Symfony\Component\DependencyInjection\Reference;
+use TypeError;
 
 /**
  * Class for Symfony bundles to configure mappings for model classes not in the

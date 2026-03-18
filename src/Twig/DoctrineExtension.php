@@ -4,15 +4,6 @@ declare(strict_types=1);
 
 namespace Doctrine\Bundle\DoctrineBundle\Twig;
 
-use Doctrine\SqlFormatter\HtmlHighlighter;
-use Doctrine\SqlFormatter\NullHighlighter;
-use Doctrine\SqlFormatter\SqlFormatter;
-use RuntimeException;
-use Stringable;
-use Symfony\Component\VarDumper\Cloner\Data;
-use Twig\Extension\AbstractExtension;
-use Twig\TwigFilter;
-
 use function addslashes;
 use function array_filter;
 use function array_key_exists;
@@ -21,18 +12,35 @@ use function array_values;
 use function assert;
 use function bin2hex;
 use function count;
+
+use Doctrine\SqlFormatter\HtmlHighlighter;
+use Doctrine\SqlFormatter\NullHighlighter;
+use Doctrine\SqlFormatter\SqlFormatter;
+
 use function implode;
 use function is_array;
 use function is_bool;
 use function is_string;
 use function preg_last_error;
 use function preg_match;
+
+use const PREG_NO_ERROR;
+
 use function preg_replace_callback;
+
+use RuntimeException;
+
 use function sprintf;
+
+use Stringable;
+
 use function strtoupper;
 use function substr;
 
-use const PREG_NO_ERROR;
+use Symfony\Component\VarDumper\Cloner\Data;
+use Twig\Extension\AbstractExtension;
+
+use Twig\TwigFilter;
 
 /**
  * This class contains the needed functions in order to do the query highlighting

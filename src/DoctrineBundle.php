@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace Doctrine\Bundle\DoctrineBundle;
 
+use function assert;
+use function class_exists;
+use function dirname;
+
 use Doctrine\Bundle\DoctrineBundle\DependencyInjection\Compiler\CacheSchemaSubscriberPass;
 use Doctrine\Bundle\DoctrineBundle\DependencyInjection\Compiler\DbalSchemaFilterPass;
 use Doctrine\Bundle\DoctrineBundle\DependencyInjection\Compiler\EntityListenerPass;
@@ -22,13 +26,10 @@ use Symfony\Bridge\Doctrine\DependencyInjection\Security\UserProvider\EntityFact
 use Symfony\Bundle\SecurityBundle\DependencyInjection\SecurityExtension;
 use Symfony\Component\Console\Application;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
+
 use Symfony\Component\DependencyInjection\Compiler\PassConfig;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
-
-use function assert;
-use function class_exists;
-use function dirname;
 
 /** @final */
 class DoctrineBundle extends Bundle

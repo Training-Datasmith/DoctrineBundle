@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Doctrine\Bundle\DoctrineBundle\Tests;
 
+use function class_exists;
+
 use Doctrine\Bundle\DoctrineBundle\Orm\ManagerRegistryAwareEntityManagerProvider;
 use Doctrine\Common\EventManager;
 use Doctrine\DBAL\Configuration as DBALConfiguration;
@@ -17,16 +19,17 @@ use Doctrine\ORM\Tools\Console\Command\MappingDescribeCommand;
 use Doctrine\ORM\Tools\Console\Command\SchemaTool\UpdateCommand;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Persistence\Mapping\Driver\MappingDriverChain;
+
+use function interface_exists;
+
 use Symfony\Bridge\Doctrine\ArgumentResolver\EntityValueResolver;
 use Symfony\Bridge\Doctrine\DataCollector\DoctrineDataCollector;
 use Symfony\Bridge\Doctrine\PropertyInfo\DoctrineExtractor;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntityValidator;
 use Symfony\Bridge\Doctrine\Validator\DoctrineLoader;
+
 use Symfony\Component\Cache\Adapter\ArrayAdapter;
 use Symfony\Component\Cache\Adapter\PhpArrayAdapter;
-
-use function class_exists;
-use function interface_exists;
 
 class ContainerTest extends TestCase
 {

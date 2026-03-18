@@ -10,12 +10,15 @@ use Doctrine\Bundle\DoctrineBundle\Tests\DependencyInjection\Fixtures\CustomIdGe
 use Doctrine\ORM\EntityManagerInterface;
 use Fixtures\Bundles\AttributesBundle\AttributesBundle;
 use Fixtures\Bundles\AttributesBundle\Entity\TestCustomIdGeneratorEntity as AttributeCustomIdGeneratorEntity;
+
+use function interface_exists;
+
 use PHPUnit\Framework\TestCase;
 use Symfony\Bundle\FrameworkBundle\DependencyInjection\FrameworkExtension;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
 
-use function interface_exists;
 use function sys_get_temp_dir;
 use function uniqid;
 

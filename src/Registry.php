@@ -4,16 +4,19 @@ declare(strict_types=1);
 
 namespace Doctrine\Bundle\DoctrineBundle;
 
+use function assert;
+
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\Proxy;
+
+use function method_exists;
+
 use ReflectionClass;
 use Symfony\Bridge\Doctrine\ManagerRegistry;
 use Symfony\Component\DependencyInjection\Container;
+
 use Symfony\Component\VarExporter\LazyObjectInterface;
 use Symfony\Contracts\Service\ResetInterface;
-
-use function assert;
-use function method_exists;
 
 /**
  * References all Doctrine connections and entity managers in a given Container.

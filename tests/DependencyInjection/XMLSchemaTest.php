@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace Doctrine\Bundle\DoctrineBundle\Tests\DependencyInjection;
 
+use function basename;
+
 use DirectoryIterator;
 use DOMDocument;
 use PHPUnit\Framework\Attributes\DataProvider;
+
 use PHPUnit\Framework\TestCase;
 
-use function basename;
 use function substr;
 
 class XMLSchemaTest extends TestCase

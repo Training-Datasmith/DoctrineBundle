@@ -6,13 +6,16 @@ namespace Doctrine\Bundle\DoctrineBundle\Tests;
 
 use Doctrine\Bundle\DoctrineBundle\DependencyInjection\DoctrineExtension;
 use Doctrine\ORM\EntityManagerInterface;
+
+use function interface_exists;
+
 use PHPUnit\Framework\Attributes\TestWith;
 use Symfony\Bundle\FrameworkBundle\DependencyInjection\FrameworkExtension;
 use Symfony\Component\DependencyInjection\Alias;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
 
-use function interface_exists;
 use function sys_get_temp_dir;
 
 class LockStoreSchemaListenerTest extends TestCase

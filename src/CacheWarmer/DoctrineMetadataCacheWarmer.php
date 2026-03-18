@@ -5,11 +5,13 @@ declare(strict_types=1);
 namespace Doctrine\Bundle\DoctrineBundle\CacheWarmer;
 
 use Doctrine\ORM\EntityManagerInterface;
-use LogicException;
-use Symfony\Bundle\FrameworkBundle\CacheWarmer\AbstractPhpFileCacheWarmer;
-use Symfony\Component\Cache\Adapter\ArrayAdapter;
 
 use function is_file;
+
+use LogicException;
+use Symfony\Bundle\FrameworkBundle\CacheWarmer\AbstractPhpFileCacheWarmer;
+
+use Symfony\Component\Cache\Adapter\ArrayAdapter;
 
 /** @internal */
 final class DoctrineMetadataCacheWarmer extends AbstractPhpFileCacheWarmer

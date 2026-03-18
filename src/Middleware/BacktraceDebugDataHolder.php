@@ -4,14 +4,16 @@ declare(strict_types=1);
 
 namespace Doctrine\Bundle\DoctrineBundle\Middleware;
 
-use Symfony\Bridge\Doctrine\Middleware\Debug\DebugDataHolder;
-use Symfony\Bridge\Doctrine\Middleware\Debug\Query;
-
 use function array_slice;
 use function debug_backtrace;
-use function in_array;
 
 use const DEBUG_BACKTRACE_IGNORE_ARGS;
+
+use function in_array;
+
+use Symfony\Bridge\Doctrine\Middleware\Debug\DebugDataHolder;
+
+use Symfony\Bridge\Doctrine\Middleware\Debug\Query;
 
 class BacktraceDebugDataHolder extends DebugDataHolder
 {

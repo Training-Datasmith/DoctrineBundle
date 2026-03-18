@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Doctrine\Bundle\DoctrineBundle\Tests\Command;
 
+use function array_merge;
+
 use Doctrine\Bundle\DoctrineBundle\Command\CreateDatabaseDoctrineCommand;
 use Doctrine\Bundle\DoctrineBundle\Tests\Polyfill\SymfonyApp;
 use Doctrine\DBAL\Configuration;
@@ -14,9 +16,9 @@ use Doctrine\Persistence\ManagerRegistry;
 use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Tester\CommandTester;
+
 use Symfony\Component\DependencyInjection\Container;
 
-use function array_merge;
 use function sys_get_temp_dir;
 use function unlink;
 

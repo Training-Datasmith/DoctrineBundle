@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Doctrine\Bundle\DoctrineBundle\Tests\DependencyInjection\Compiler;
 
+use function assert;
+
 use Doctrine\Bundle\DoctrineBundle\DependencyInjection\Compiler\DoctrineOrmMappingsPass;
 use Doctrine\Bundle\DoctrineBundle\Tests\TestCase;
 use Doctrine\ORM\EntityManagerInterface;
@@ -13,11 +15,11 @@ use Doctrine\Persistence\Mapping\Driver\MappingDriverChain;
 use Doctrine\Persistence\Mapping\Driver\PHPDriver;
 use Doctrine\Persistence\Mapping\Driver\StaticPHPDriver;
 use Doctrine\Persistence\Mapping\Driver\SymfonyFileLocator;
+
+use function interface_exists;
+
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
-
-use function assert;
-use function interface_exists;
 
 class DoctrineOrmMappingsPassTest extends TestCase
 {

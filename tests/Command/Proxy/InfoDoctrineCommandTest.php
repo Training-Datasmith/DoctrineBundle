@@ -7,11 +7,12 @@ namespace Command\Proxy;
 use Doctrine\Bundle\DoctrineBundle\Tests\DependencyInjection\Fixtures\TestKernel;
 use Doctrine\Bundle\DoctrineBundle\Tests\TestCase;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Console\Application;
-use Symfony\Component\Console\Tester\CommandTester;
 
 use function interface_exists;
 use function restore_exception_handler;
+
+use Symfony\Bundle\FrameworkBundle\Console\Application;
+use Symfony\Component\Console\Tester\CommandTester;
 
 class InfoDoctrineCommandTest extends TestCase
 {

@@ -7,15 +7,20 @@ namespace Doctrine\Bundle\DoctrineBundle\Command;
 use Doctrine\DBAL\DriverManager;
 use Doctrine\DBAL\Platforms\PostgreSQLPlatform;
 use Doctrine\DBAL\Schema\SQLiteSchemaManager;
+
+use function file_exists;
+use function in_array;
+
 use InvalidArgumentException;
+
+use function sprintf;
+
 use Symfony\Component\Console\Input\InputInterface;
+
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Throwable;
 
-use function file_exists;
-use function in_array;
-use function sprintf;
 use function unlink;
 
 /**

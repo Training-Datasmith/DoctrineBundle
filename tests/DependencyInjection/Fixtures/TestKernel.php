@@ -5,15 +5,18 @@ declare(strict_types=1);
 namespace Doctrine\Bundle\DoctrineBundle\Tests\DependencyInjection\Fixtures;
 
 use Doctrine\Bundle\DoctrineBundle\DoctrineBundle;
+
+use function md5;
+use function mt_rand;
+
 use Psr\Log\NullLogger;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Symfony\Component\HttpKernel\Kernel;
 
-use function md5;
-use function mt_rand;
 use function sys_get_temp_dir;
 
 class TestKernel extends Kernel

@@ -4,6 +4,15 @@ declare(strict_types=1);
 
 namespace Doctrine\Bundle\DoctrineBundle\DependencyInjection;
 
+use function array_flip;
+use function array_keys;
+use function array_merge;
+use function array_replace;
+use function array_values;
+use function assert;
+use function class_exists;
+use function dirname;
+
 use Doctrine\Bundle\DoctrineBundle\Attribute\AsDoctrineListener;
 use Doctrine\Bundle\DoctrineBundle\Attribute\AsEntityListener;
 use Doctrine\Bundle\DoctrineBundle\Attribute\AsMiddleware;
@@ -40,14 +49,35 @@ use Doctrine\ORM\UnitOfWork;
 use Doctrine\Persistence\Mapping\Driver\MappingDriverChain;
 use Doctrine\Persistence\Mapping\Driver\PHPDriver;
 use Doctrine\Persistence\Mapping\Driver\StaticPHPDriver;
+
+use function glob;
+
+use const GLOB_NOSORT;
+
+use function in_array;
+use function interface_exists;
+
 use InvalidArgumentException;
+
+use function is_dir;
+use function is_string;
+
 use LogicException;
+
+use function realpath;
+
 use ReflectionClass;
+
+use function reset;
+use function sprintf;
+use function str_replace;
+
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bridge\Doctrine\IdGenerator\UlidGenerator;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 use Symfony\Bridge\Doctrine\Middleware\IdleConnection\Listener;
 use Symfony\Bridge\Doctrine\PropertyInfo\DoctrineExtractor;
+
 use Symfony\Bridge\Doctrine\Validator\DoctrineLoader;
 use Symfony\Component\Cache\Adapter\ArrayAdapter;
 use Symfony\Component\Cache\Adapter\PhpArrayAdapter;
@@ -65,27 +95,8 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Messenger\Bridge\Doctrine\Transport\DoctrineTransportFactory;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\PropertyInfo\PropertyInfoExtractorInterface;
+
 use Symfony\Component\Validator\Mapping\Loader\LoaderInterface;
-
-use function array_flip;
-use function array_keys;
-use function array_merge;
-use function array_replace;
-use function array_values;
-use function assert;
-use function class_exists;
-use function dirname;
-use function glob;
-use function in_array;
-use function interface_exists;
-use function is_dir;
-use function is_string;
-use function realpath;
-use function reset;
-use function sprintf;
-use function str_replace;
-
-use const GLOB_NOSORT;
 
 /**
  * DoctrineExtension is an extension for the Doctrine DBAL and ORM library.

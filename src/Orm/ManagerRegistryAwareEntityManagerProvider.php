@@ -7,9 +7,11 @@ namespace Doctrine\Bundle\DoctrineBundle\Orm;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Tools\Console\EntityManagerProvider;
 use Doctrine\Persistence\ManagerRegistry;
-use RuntimeException;
 
 use function get_debug_type;
+
+use RuntimeException;
+
 use function sprintf;
 
 final readonly class ManagerRegistryAwareEntityManagerProvider implements EntityManagerProvider

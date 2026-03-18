@@ -6,15 +6,18 @@ namespace Doctrine\Bundle\DoctrineBundle\Tests\DependencyInjection\Fixtures;
 
 use Doctrine\Bundle\DoctrineBundle\DoctrineBundle;
 use Doctrine\Bundle\DoctrineBundle\Tests\TestCaseAllPublicCompilerPass;
+
+use function md5;
+use function mt_rand;
+
 use Psr\Log\NullLogger;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Symfony\Component\HttpKernel\Kernel;
 
-use function md5;
-use function mt_rand;
 use function sys_get_temp_dir;
 use function version_compare;
 

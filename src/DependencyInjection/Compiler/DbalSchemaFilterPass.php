@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace Doctrine\Bundle\DoctrineBundle\DependencyInjection\Compiler;
 
+use function sprintf;
+
 use Symfony\Component\DependencyInjection\ChildDefinition;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Reference;
 
-use function sprintf;
+use Symfony\Component\DependencyInjection\Reference;
 
 /**
  * Processes the doctrine.dbal.schema_filter

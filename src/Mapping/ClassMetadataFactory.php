@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace Doctrine\Bundle\DoctrineBundle\Mapping;
 
+use function assert;
+
 use Doctrine\ORM\Id\AbstractIdGenerator;
 use Doctrine\ORM\Mapping\ClassMetadata;
-use Doctrine\ORM\Mapping\ClassMetadataFactory as BaseClassMetadataFactory;
 
-use function assert;
+use Doctrine\ORM\Mapping\ClassMetadataFactory as BaseClassMetadataFactory;
 
 class ClassMetadataFactory extends BaseClassMetadataFactory
 {

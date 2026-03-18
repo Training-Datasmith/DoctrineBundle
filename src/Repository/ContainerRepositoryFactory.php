@@ -4,18 +4,22 @@ declare(strict_types=1);
 
 namespace Doctrine\Bundle\DoctrineBundle\Repository;
 
+use function class_exists;
+
 use Doctrine\Bundle\DoctrineBundle\DependencyInjection\Compiler\ServiceRepositoryCompilerPass;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\Repository\RepositoryFactory;
 use Doctrine\Persistence\ObjectRepository;
+
+use function get_debug_type;
+
+use function is_a;
+
 use Psr\Container\ContainerInterface;
 use RuntimeException;
 
-use function class_exists;
-use function get_debug_type;
-use function is_a;
 use function spl_object_hash;
 use function sprintf;
 

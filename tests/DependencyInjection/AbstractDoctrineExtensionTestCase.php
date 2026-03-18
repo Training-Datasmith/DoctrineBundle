@@ -4,6 +4,13 @@ declare(strict_types=1);
 
 namespace Doctrine\Bundle\DoctrineBundle\Tests\DependencyInjection;
 
+use function array_filter;
+use function array_keys;
+use function array_values;
+use function assert;
+
+use const DIRECTORY_SEPARATOR;
+
 use Doctrine\Bundle\DoctrineBundle\DependencyInjection\Compiler\DbalSchemaFilterPass;
 use Doctrine\Bundle\DoctrineBundle\DependencyInjection\Compiler\EntityListenerPass;
 use Doctrine\Bundle\DoctrineBundle\DependencyInjection\DoctrineExtension;
@@ -22,16 +29,29 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\Mapping\Driver\SimplifiedXmlDriver;
+
+use function end;
+
 use Generator;
+
+use function interface_exists;
+
 use InvalidArgumentException;
+
+use function is_dir;
+
 use PDO;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\IgnoreDeprecations;
 use PHPUnit\Framework\TestCase;
+
+use function sprintf;
+
 use Symfony\Bridge\Doctrine\DependencyInjection\CompilerPass\RegisterEventListenersAndSubscribersPass;
 use Symfony\Bundle\DoctrineBundle\Tests\DependencyInjection\TestHydrator;
 use Symfony\Component\Cache\Adapter\ArrayAdapter;
 use Symfony\Component\Cache\Adapter\PhpArrayAdapter;
+
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\Compiler\ResolveChildDefinitionsPass;
@@ -42,18 +62,9 @@ use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\DependencyInjection\ServiceLocator;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-use function array_filter;
-use function array_keys;
-use function array_values;
-use function assert;
-use function end;
-use function interface_exists;
-use function is_dir;
-use function sprintf;
 use function sys_get_temp_dir;
-use function uniqid;
 
-use const DIRECTORY_SEPARATOR;
+use function uniqid;
 
 abstract class AbstractDoctrineExtensionTestCase extends TestCase
 {
