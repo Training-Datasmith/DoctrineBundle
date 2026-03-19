@@ -94,7 +94,7 @@ class DoctrineExtension extends AbstractExtension
                 break;
 
             case $result instanceof Stringable:
-                $result = addslashes((string) $result);
+                $result = "'" . addslashes((string) $result) . "'";
                 break;
 
             case $result === null:
