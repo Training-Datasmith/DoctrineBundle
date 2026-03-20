@@ -1,92 +1,70 @@
 <?php
 
-declare(strict_types=1);
-
-namespace Doctrine\Bundle\DoctrineBundle\Middleware;
+declare (strict_types=1);
+namespace Doctrine\Bundle\Doctrine_Bundle\Middleware;
 
 use function array_slice;
 use function debug_backtrace;
-
 use const DEBUG_BACKTRACE_IGNORE_ARGS;
-
 use function in_array;
-
-use Symfony\Bridge\Doctrine\Middleware\Debug\DebugDataHolder;
-
+use Symfony\Bridge\Doctrine\Middleware\Debug\Debug_Data_Holder;
 use Symfony\Bridge\Doctrine\Middleware\Debug\Query;
-
-class BacktraceDebugDataHolder extends DebugDataHolder
+class Backtrace_Debug_Data_Holder extends Debug_Data_Holder
 {
     /** @var array<string, array<int|string, mixed>[]> */
     private array $backtraces = [];
-
     /** @param string[] $connWithBacktraces */
-    public function __construct(
-        private readonly array $connWithBacktraces,
-    ) {
+    public function __construct(private readonly array $conn_with_backtraces)
+    {
     }
-
     public function reset(): void
     {
         parent::reset();
-
         $this->backtraces = [];
     }
-
-    public function addQuery(string $connectionName, Query $query): void
+    public function add_query(string $connection_name, Query $query): void
     {
-        parent::addQuery($connectionName, $query);
-
-        if (! in_array($connectionName, $this->connWithBacktraces, true)) {
+        parent::add_query($connection_name, $query);
+        if (!in_array($connection_name, $this->conn_with_backtraces, true)) {
             return;
         }
-
         // array_slice to skip middleware calls in the trace
-        $this->backtraces[$connectionName][] = array_slice(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS), 2);
+        $this->backtraces[$connection_name][] = array_slice(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS), 2);
     }
-
     /** @return array<string, array<string, mixed>[]> */
-    public function getData(): array
+    public function get_data(): array
     {
-        $dataWithBacktraces = [];
-
-        $data = parent::getData();
-        foreach ($data as $connectionName => $dataForConn) {
-            $dataWithBacktraces[$connectionName] = $this->getDataForConnection($connectionName, $dataForConn);
+        $data_with_backtraces = [];
+        $data = parent::get_data();
+        foreach ($data as $connection_name => $data_for_conn) {
+            $data_with_backtraces[$connection_name] = $this->get_data_for_connection($connection_name, $data_for_conn);
         }
-
-        return $dataWithBacktraces;
+        return $data_with_backtraces;
     }
-
     /**
      * @param mixed[][] $dataForConn
      *
      * @return mixed[][]
      */
-    private function getDataForConnection(string $connectionName, array $dataForConn): array
+    private function get_data_for_connection(string $connection_name, array $data_for_conn): array
     {
         $data = [];
-
-        foreach ($dataForConn as $idx => $record) {
-            $data[] = $this->addBacktracesIfAvailable($connectionName, $record, $idx);
+        foreach ($data_for_conn as $idx => $record) {
+            $data[] = $this->add_backtraces_if_available($connection_name, $record, $idx);
         }
-
         return $data;
     }
-
     /**
      * @param mixed[] $record
      *
      * @return mixed[]
      */
-    private function addBacktracesIfAvailable(string $connectionName, array $record, int $idx): array
+    private function add_backtraces_if_available(string $connection_name, array $record, int $idx): array
     {
-        if (! isset($this->backtraces[$connectionName])) {
+        if (!isset($this->backtraces[$connection_name])) {
             return $record;
         }
-
-        $record['backtrace'] = $this->backtraces[$connectionName][$idx];
-
+        $record['backtrace'] = $this->backtraces[$connection_name][$idx];
         return $record;
     }
 }

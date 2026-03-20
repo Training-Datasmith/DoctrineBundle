@@ -1,63 +1,48 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace Doctrine\Bundle\Doctrine_Bundle\Mapping;
 
-namespace Doctrine\Bundle\DoctrineBundle\Mapping;
-
-use Doctrine\ORM\Mapping\ClassMetadata as OrmClassMetadata;
-use Doctrine\Persistence\Mapping\ClassMetadata;
-use Doctrine\Persistence\Mapping\Driver\MappingDriver as MappingDriverInterface;
-use Psr\Container\ContainerInterface;
-
-class MappingDriver implements MappingDriverInterface
+use Doctrine\ORM\Mapping\Class_Metadata as OrmClassMetadata;
+use Doctrine\Persistence\Mapping\Class_Metadata;
+use Doctrine\Persistence\Mapping\Driver\Mapping_Driver as MappingDriverInterface;
+use Psr\Container\Container_Interface;
+class Mapping_Driver implements Mapping_Driver_Interface
 {
-    public function __construct(
-        private readonly MappingDriverInterface $driver,
-        private readonly ContainerInterface $idGeneratorLocator,
-    ) {
+    public function __construct(private readonly Mapping_Driver_Interface $driver, private readonly Container_Interface $id_generator_locator)
+    {
     }
-
     /**
      * {@inheritDoc}
      */
-    public function getAllClassNames(): array
+    public function get_all_class_names(): array
     {
-        return $this->driver->getAllClassNames();
+        return $this->driver->get_all_class_names();
     }
-
     /**
      * {@inheritDoc}
      */
-    public function isTransient($className): bool
+    public function is_transient($class_name): bool
     {
-        return $this->driver->isTransient($className);
+        return $this->driver->is_transient($class_name);
     }
-
     /**
      * {@inheritDoc}
      */
-    public function loadMetadataForClass($className, ClassMetadata $metadata): void
+    public function load_metadata_for_class($class_name, Class_Metadata $metadata): void
     {
-        $this->driver->loadMetadataForClass($className, $metadata);
-
-        if (
-            ! $metadata instanceof OrmClassMetadata
-            || $metadata->generatorType !== OrmClassMetadata::GENERATOR_TYPE_CUSTOM
-            || ! isset($metadata->customGeneratorDefinition['class'])
-            || ! $this->idGeneratorLocator->has($metadata->customGeneratorDefinition['class'])
-        ) {
+        $this->driver->load_metadata_for_class($class_name, $metadata);
+        if (!$metadata instanceof Orm_Class_Metadata || $metadata->generator_type !== Orm_Class_Metadata::GENERATOR_TYPE_CUSTOM || !isset($metadata->custom_generator_definition['class']) || !$this->id_generator_locator->has($metadata->custom_generator_definition['class'])) {
             return;
         }
-
-        $idGenerator = $this->idGeneratorLocator->get($metadata->customGeneratorDefinition['class']);
-        $metadata->setCustomGeneratorDefinition(['instance' => $idGenerator] + $metadata->customGeneratorDefinition);
-        $metadata->setIdGeneratorType(OrmClassMetadata::GENERATOR_TYPE_NONE);
+        $id_generator = $this->id_generator_locator->get($metadata->custom_generator_definition['class']);
+        $metadata->set_custom_generator_definition(['instance' => $id_generator] + $metadata->custom_generator_definition);
+        $metadata->set_id_generator_type(Orm_Class_Metadata::GENERATOR_TYPE_NONE);
     }
-
     /**
      * Returns the inner driver
      */
-    public function getDriver(): MappingDriverInterface
+    public function get_driver(): Mapping_Driver_Interface
     {
         return $this->driver;
     }

@@ -1,62 +1,53 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace Doctrine\Bundle\Doctrine_Bundle;
 
-namespace Doctrine\Bundle\DoctrineBundle;
-
-use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\Query\Filter\SQLFilter;
-
+use Doctrine\ORM\Entity_Manager_Interface;
+use Doctrine\ORM\Query\Filter\Sql_Filter;
 /**
  * Configurator for an EntityManager
  */
-class ManagerConfigurator
+class Manager_Configurator
 {
     /**
      * @param string[]                           $enabledFilters
      * @param array<string,array<string,string>> $filtersParameters
      */
-    public function __construct(
-        private readonly array $enabledFilters = [],
-        private readonly array $filtersParameters = [],
-    ) {
+    public function __construct(private readonly array $enabled_filters = [], private readonly array $filters_parameters = [])
+    {
     }
-
     /**
      * Create a connection by name.
      */
-    public function configure(EntityManagerInterface $entityManager): void
+    public function configure(Entity_Manager_Interface $entity_manager): void
     {
-        $this->enableFilters($entityManager);
+        $this->enable_filters($entity_manager);
     }
-
     /**
      * Enables filters for a given entity manager
      */
-    private function enableFilters(EntityManagerInterface $entityManager): void
+    private function enable_filters(Entity_Manager_Interface $entity_manager): void
     {
-        if (empty($this->enabledFilters)) {
+        if (empty($this->enabled_filters)) {
             return;
         }
-
-        $filterCollection = $entityManager->getFilters();
-        foreach ($this->enabledFilters as $filter) {
-            $this->setFilterParameters($filter, $filterCollection->enable($filter));
+        $filter_collection = $entity_manager->get_filters();
+        foreach ($this->enabled_filters as $filter) {
+            $this->set_filter_parameters($filter, $filter_collection->enable($filter));
         }
     }
-
     /**
      * Sets default parameters for a given filter
      */
-    private function setFilterParameters(string $name, SQLFilter $filter): void
+    private function set_filter_parameters(string $name, Sql_Filter $filter): void
     {
-        if (empty($this->filtersParameters[$name])) {
+        if (empty($this->filters_parameters[$name])) {
             return;
         }
-
-        $parameters = $this->filtersParameters[$name];
-        foreach ($parameters as $paramName => $paramValue) {
-            $filter->setParameter($paramName, $paramValue);
+        $parameters = $this->filters_parameters[$name];
+        foreach ($parameters as $param_name => $param_value) {
+            $filter->set_parameter($param_name, $param_value);
         }
     }
 }

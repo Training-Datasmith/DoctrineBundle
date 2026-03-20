@@ -1,40 +1,28 @@
 <?php
 
-declare(strict_types=1);
-
-namespace Doctrine\Bundle\DoctrineBundle\Middleware;
+declare (strict_types=1);
+namespace Doctrine\Bundle\Doctrine_Bundle\Middleware;
 
 use ArrayObject;
 use Doctrine\DBAL\Driver;
 use Doctrine\DBAL\Driver\Middleware;
-use Symfony\Bridge\Doctrine\Middleware\IdleConnection\Driver as IdleConnectionDriver;
-
-class IdleConnectionMiddleware implements Middleware, ConnectionNameAwareInterface
+use Symfony\Bridge\Doctrine\Middleware\Idle_Connection\Driver as IdleConnectionDriver;
+class Idle_Connection_Middleware implements Middleware, Connection_Name_Aware_Interface
 {
-    private string $connectionName;
-
+    private string $connection_name;
     /**
      * @param ArrayObject<string, int> $connectionExpiries
      * @param array<string, int>       $ttlByConnection
      */
-    public function __construct(
-        private readonly ArrayObject $connectionExpiries,
-        private readonly array $ttlByConnection,
-    ) {
-    }
-
-    public function setConnectionName(string $name): void
+    public function __construct(private readonly ArrayObject $connection_expiries, private readonly array $ttl_by_connection)
     {
-        $this->connectionName = $name;
     }
-
-    public function wrap(Driver $driver): IdleConnectionDriver
+    public function set_connection_name(string $name): void
     {
-        return new IdleConnectionDriver(
-            $driver,
-            $this->connectionExpiries,
-            $this->ttlByConnection[$this->connectionName],
-            $this->connectionName,
-        );
+        $this->connection_name = $name;
+    }
+    public function wrap(Driver $driver): Idle_Connection_Driver
+    {
+        return new Idle_Connection_Driver($driver, $this->connection_expiries, $this->ttl_by_connection[$this->connection_name], $this->connection_name);
     }
 }

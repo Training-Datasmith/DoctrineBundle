@@ -1,10 +1,9 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace Doctrine\Bundle\Doctrine_Bundle\Middleware;
 
-namespace Doctrine\Bundle\DoctrineBundle\Middleware;
-
-interface ConnectionNameAwareInterface
+interface Connection_Name_Aware_Interface
 {
-    public function setConnectionName(string $name): void;
+    public function set_connection_name(string $name): void;
 }

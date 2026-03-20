@@ -1,14 +1,12 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace Doctrine\Bundle\Doctrine_Bundle\Dependency_Injection\Compiler;
 
-namespace Doctrine\Bundle\DoctrineBundle\DependencyInjection\Compiler;
-
-use Symfony\Component\Cache\Adapter\DoctrineDbalAdapter;
-use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Reference;
-
+use Symfony\Component\Cache\Adapter\Doctrine_Dbal_Adapter;
+use Symfony\Component\Dependency_Injection\Compiler\Compiler_Pass_Interface;
+use Symfony\Component\Dependency_Injection\Container_Builder;
+use Symfony\Component\Dependency_Injection\Reference;
 /**
  * Injects Doctrine DBAL adapters into their schema subscriber.
  *
@@ -16,31 +14,27 @@ use Symfony\Component\DependencyInjection\Reference;
  *
  * @internal
  */
-final class CacheSchemaSubscriberPass implements CompilerPassInterface
+final class Cache_Schema_Subscriber_Pass implements Compiler_Pass_Interface
 {
-    public function process(ContainerBuilder $container): void
+    public function process(Container_Builder $container): void
     {
-        if (! $container->hasDefinition('doctrine.orm.listeners.doctrine_dbal_cache_adapter_schema_listener')) {
+        if (!$container->has_definition('doctrine.orm.listeners.doctrine_dbal_cache_adapter_schema_listener')) {
             return;
         }
-
-        $subscriber = $container->getDefinition('doctrine.orm.listeners.doctrine_dbal_cache_adapter_schema_listener');
-
-        $cacheAdaptersReferences = [];
-        foreach ($container->getDefinitions() as $id => $definition) {
-            if ($definition->isAbstract()) {
+        $subscriber = $container->get_definition('doctrine.orm.listeners.doctrine_dbal_cache_adapter_schema_listener');
+        $cache_adapters_references = [];
+        foreach ($container->get_definitions() as $id => $definition) {
+            if ($definition->is_abstract()) {
                 continue;
             }
-            if ($definition->isSynthetic()) {
+            if ($definition->is_synthetic()) {
                 continue;
             }
-            if ($definition->getClass() !== DoctrineDbalAdapter::class) {
+            if ($definition->get_class() !== Doctrine_Dbal_Adapter::class) {
                 continue;
             }
-
-            $cacheAdaptersReferences[] = new Reference($id);
+            $cache_adapters_references[] = new Reference($id);
         }
-
-        $subscriber->replaceArgument(0, $cacheAdaptersReferences);
+        $subscriber->replace_argument(0, $cache_adapters_references);
     }
 }

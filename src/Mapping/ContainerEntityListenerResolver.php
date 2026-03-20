@@ -1,52 +1,38 @@
 <?php
 
-declare(strict_types=1);
-
-namespace Doctrine\Bundle\DoctrineBundle\Mapping;
+declare (strict_types=1);
+namespace Doctrine\Bundle\Doctrine_Bundle\Mapping;
 
 use function gettype;
-
 use InvalidArgumentException;
-
 use function is_object;
-
-use Psr\Container\ContainerInterface;
+use Psr\Container\Container_Interface;
 use RuntimeException;
-
 use function sprintf;
 use function trim;
-
 /** @final */
-class ContainerEntityListenerResolver implements EntityListenerServiceResolver
+class Container_Entity_Listener_Resolver implements Entity_Listener_Service_Resolver
 {
     /** @var object[] Map to store entity listener instances. */
     private array $instances = [];
-
     /** @var string[] Map to store registered service ids */
-    private array $serviceIds = [];
-
+    private array $service_ids = [];
     /** @param ContainerInterface $container a service locator for listeners */
-    public function __construct(
-        private readonly ContainerInterface $container,
-    ) {
+    public function __construct(private readonly Container_Interface $container)
+    {
     }
-
     /**
      * {@inheritDoc}
      */
-    public function clear($className = null): void
+    public function clear($class_name = null): void
     {
-        if ($className === null) {
+        if ($class_name === null) {
             $this->instances = [];
-
             return;
         }
-
-        $className = $this->normalizeClassName($className);
-
-        unset($this->instances[$className]);
+        $class_name = $this->normalize_class_name($class_name);
+        unset($this->instances[$class_name]);
     }
-
     /**
      * {@inheritDoc}
      *
@@ -54,55 +40,46 @@ class ContainerEntityListenerResolver implements EntityListenerServiceResolver
      */
     public function register($object): void
     {
-        if (! is_object($object)) {
+        if (!is_object($object)) {
             throw new InvalidArgumentException(sprintf('An object was expected, but got "%s".', gettype($object)));
         }
-
-        $className = $this->normalizeClassName($object::class);
-
-        $this->instances[$className] = $object;
+        $class_name = $this->normalize_class_name($object::class);
+        $this->instances[$class_name] = $object;
     }
-
     /**
      * {@inheritDoc}
      *
      * @param string $className
      * @param string $serviceId
      */
-    public function registerService($className, $serviceId): void
+    public function register_service($class_name, $service_id): void
     {
-        $this->serviceIds[$this->normalizeClassName($className)] = $serviceId;
+        $this->service_ids[$this->normalize_class_name($class_name)] = $service_id;
     }
-
     /**
      * {@inheritDoc}
      */
-    public function resolve($className): object
+    public function resolve($class_name): object
     {
-        $className = $this->normalizeClassName($className);
-
-        if (! isset($this->instances[$className])) {
-            if (isset($this->serviceIds[$className])) {
-                $this->instances[$className] = $this->resolveService($this->serviceIds[$className]);
+        $class_name = $this->normalize_class_name($class_name);
+        if (!isset($this->instances[$class_name])) {
+            if (isset($this->service_ids[$class_name])) {
+                $this->instances[$class_name] = $this->resolve_service($this->service_ids[$class_name]);
             } else {
-                $this->instances[$className] = new $className();
+                $this->instances[$class_name] = new $class_name();
             }
         }
-
-        return $this->instances[$className];
+        return $this->instances[$class_name];
     }
-
-    private function resolveService(string $serviceId): object
+    private function resolve_service(string $service_id): object
     {
-        if (! $this->container->has($serviceId)) {
-            throw new RuntimeException(sprintf('There is no service named "%s"', $serviceId));
+        if (!$this->container->has($service_id)) {
+            throw new RuntimeException(sprintf('There is no service named "%s"', $service_id));
         }
-
-        return $this->container->get($serviceId);
+        return $this->container->get($service_id);
     }
-
-    private function normalizeClassName(string $className): string
+    private function normalize_class_name(string $class_name): string
     {
-        return trim($className, '\\');
+        return trim($class_name, '\\');
     }
 }

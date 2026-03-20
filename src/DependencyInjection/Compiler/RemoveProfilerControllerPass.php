@@ -1,22 +1,19 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace Doctrine\Bundle\Doctrine_Bundle\Dependency_Injection\Compiler;
 
-namespace Doctrine\Bundle\DoctrineBundle\DependencyInjection\Compiler;
-
-use Doctrine\Bundle\DoctrineBundle\Controller\ProfilerController;
-use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-
+use Doctrine\Bundle\Doctrine_Bundle\Controller\Profiler_Controller;
+use Symfony\Component\Dependency_Injection\Compiler\Compiler_Pass_Interface;
+use Symfony\Component\Dependency_Injection\Container_Builder;
 /** @internal */
-final class RemoveProfilerControllerPass implements CompilerPassInterface
+final class Remove_Profiler_Controller_Pass implements Compiler_Pass_Interface
 {
-    public function process(ContainerBuilder $container): void
+    public function process(Container_Builder $container): void
     {
         if ($container->has('twig') && $container->has('profiler')) {
             return;
         }
-
-        $container->removeDefinition(ProfilerController::class);
+        $container->remove_definition(Profiler_Controller::class);
     }
 }

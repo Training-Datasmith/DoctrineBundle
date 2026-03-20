@@ -1,98 +1,67 @@
 <?php
 
-declare(strict_types=1);
-
-namespace Doctrine\Bundle\DoctrineBundle\DependencyInjection\Compiler;
+declare (strict_types=1);
+namespace Doctrine\Bundle\Doctrine_Bundle\Dependency_Injection\Compiler;
 
 use function array_key_exists;
 use function array_keys;
 use function array_map;
 use function array_values;
-
-use Doctrine\Bundle\DoctrineBundle\Middleware\ConnectionNameAwareInterface;
-
+use Doctrine\Bundle\Doctrine_Bundle\Middleware\Connection_Name_Aware_Interface;
 use function is_subclass_of;
 use function sprintf;
-
-use Symfony\Component\DependencyInjection\ChildDefinition;
-use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Reference;
-
+use Symfony\Component\Dependency_Injection\Child_Definition;
+use Symfony\Component\Dependency_Injection\Compiler\Compiler_Pass_Interface;
+use Symfony\Component\Dependency_Injection\Container_Builder;
+use Symfony\Component\Dependency_Injection\Reference;
 use function usort;
-
 /** @internal */
-final class MiddlewaresPass implements CompilerPassInterface
+final class Middlewares_Pass implements Compiler_Pass_Interface
 {
-    public function process(ContainerBuilder $container): void
+    public function process(Container_Builder $container): void
     {
-        if (! $container->hasParameter('doctrine.connections')) {
+        if (!$container->has_parameter('doctrine.connections')) {
             return;
         }
-
-        $middlewareAbstractDefs = [];
-        $middlewareConnections  = [];
-        $middlewarePriorities   = [];
-        foreach ($container->findTaggedServiceIds('doctrine.middleware') as $id => $tags) {
-            $middlewareAbstractDefs[$id] = $container->getDefinition($id);
+        $middleware_abstract_defs = [];
+        $middleware_connections = [];
+        $middleware_priorities = [];
+        foreach ($container->find_tagged_service_ids('doctrine.middleware') as $id => $tags) {
+            $middleware_abstract_defs[$id] = $container->get_definition($id);
             // When a def has doctrine.middleware tags with connection attributes equal to connection names
             // registration of this middleware is limited to the connections with these names
             foreach ($tags as $tag) {
-                if (! isset($tag['connection'])) {
-                    if (isset($tag['priority']) && ! isset($middlewarePriorities[$id])) {
-                        $middlewarePriorities[$id] = $tag['priority'];
+                if (!isset($tag['connection'])) {
+                    if (isset($tag['priority']) && !isset($middleware_priorities[$id])) {
+                        $middleware_priorities[$id] = $tag['priority'];
                     }
-
                     continue;
                 }
-
-                $middlewareConnections[$id][$tag['connection']] = $tag['priority'] ?? null;
+                $middleware_connections[$id][$tag['connection']] = $tag['priority'] ?? null;
             }
         }
-
-        foreach (array_keys($container->getParameter('doctrine.connections')) as $name) {
-            $middlewareRefs = [];
-            $i              = 0;
-            foreach ($middlewareAbstractDefs as $id => $abstractDef) {
-                if (isset($middlewareConnections[$id]) && ! array_key_exists($name, $middlewareConnections[$id])) {
+        foreach (array_keys($container->get_parameter('doctrine.connections')) as $name) {
+            $middleware_refs = [];
+            $i = 0;
+            foreach ($middleware_abstract_defs as $id => $abstract_def) {
+                if (isset($middleware_connections[$id]) && !array_key_exists($name, $middleware_connections[$id])) {
                     continue;
                 }
-
-                $childDef    = $container->setDefinition(
-                    $childId = sprintf('%s.%s', $id, $name),
-                    (new ChildDefinition($id))
-                        ->setTags($abstractDef->getTags())->clearTag('doctrine.middleware')
-                        ->setAutoconfigured($abstractDef->isAutoconfigured())
-                        ->setAutowired($abstractDef->isAutowired()),
-                );
-                $middlewareRefs[$id] = [new Reference($childId), ++$i];
-
-                $class = $abstractDef->getClass();
+                $child_def = $container->set_definition($child_id = sprintf('%s.%s', $id, $name), (new Child_Definition($id))->set_tags($abstract_def->get_tags())->clear_tag('doctrine.middleware')->set_autoconfigured($abstract_def->is_autoconfigured())->set_autowired($abstract_def->is_autowired()));
+                $middleware_refs[$id] = [new Reference($child_id), ++$i];
+                $class = $abstract_def->get_class();
                 if ($class === null) {
                     continue;
                 }
-                if (! is_subclass_of($class, ConnectionNameAwareInterface::class)) {
+                if (!is_subclass_of($class, Connection_Name_Aware_Interface::class)) {
                     continue;
                 }
-
-                $childDef->addMethodCall('setConnectionName', [$name]);
+                $child_def->add_method_call('setConnectionName', [$name]);
             }
-
-            $middlewareRefs = array_map(
-                static fn (string $id, array $ref): array => [
-                    $middlewareConnections[$id][$name] ?? $middlewarePriorities[$id] ?? 0,
-                    $ref[1],
-                    $ref[0],
-                ],
-                array_keys($middlewareRefs),
-                array_values($middlewareRefs),
-            );
-            usort($middlewareRefs, static fn (array $a, array $b): int => $b[0] <=> $a[0] ?: $a[1] <=> $b[1]);
-            $middlewareRefs = array_map(static fn (array $value): Reference => $value[2], $middlewareRefs);
-
-            $container
-                ->getDefinition(sprintf('doctrine.dbal.%s_connection.configuration', $name))
-                ->addMethodCall('setMiddlewares', [$middlewareRefs]);
+            $middleware_refs = array_map(static fn(string $id, array $ref): array => [$middleware_connections[$id][$name] ?? $middleware_priorities[$id] ?? 0, $ref[1], $ref[0]], array_keys($middleware_refs), array_values($middleware_refs));
+            usort($middleware_refs, static fn(array $a, array $b): int => $b[0] <=> $a[0] ?: $a[1] <=> $b[1]);
+            $middleware_refs = array_map(static fn(array $value): Reference => $value[2], $middleware_refs);
+            $container->get_definition(sprintf('doctrine.dbal.%s_connection.configuration', $name))->add_method_call('setMiddlewares', [$middleware_refs]);
         }
     }
 }

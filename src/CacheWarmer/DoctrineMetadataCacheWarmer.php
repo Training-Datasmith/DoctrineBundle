@@ -1,48 +1,36 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace Doctrine\Bundle\Doctrine_Bundle\Cache_Warmer;
 
-namespace Doctrine\Bundle\DoctrineBundle\CacheWarmer;
-
-use Doctrine\ORM\EntityManagerInterface;
-
+use Doctrine\ORM\Entity_Manager_Interface;
 use function is_file;
-
 use LogicException;
-use Symfony\Bundle\FrameworkBundle\CacheWarmer\AbstractPhpFileCacheWarmer;
-
-use Symfony\Component\Cache\Adapter\ArrayAdapter;
-
+use Symfony\Bundle\Framework_Bundle\Cache_Warmer\Abstract_Php_File_Cache_Warmer;
+use Symfony\Component\Cache\Adapter\Array_Adapter;
 /** @internal */
-final class DoctrineMetadataCacheWarmer extends AbstractPhpFileCacheWarmer
+final class Doctrine_Metadata_Cache_Warmer extends Abstract_Php_File_Cache_Warmer
 {
-    public function __construct(
-        private readonly EntityManagerInterface $entityManager,
-        private readonly string $phpArrayFile,
-    ) {
-        parent::__construct($phpArrayFile);
+    public function __construct(private readonly Entity_Manager_Interface $entity_manager, private readonly string $php_array_file)
+    {
+        parent::__construct($php_array_file);
     }
-
-    public function isOptional(): bool
+    public function is_optional(): bool
     {
         return true;
     }
-
-    protected function doWarmUp(string $cacheDir, ArrayAdapter $arrayAdapter, string|null $buildDir = null): bool
+    protected function do_warm_up(string $cache_dir, Array_Adapter $array_adapter, string|null $build_dir = null): bool
     {
         // cache already warmed up, no needs to do it again
-        if (is_file($this->phpArrayFile)) {
+        if (is_file($this->php_array_file)) {
             return false;
         }
-
-        $metadataFactory = $this->entityManager->getMetadataFactory();
-        if ($metadataFactory->getLoadedMetadata()) {
+        $metadata_factory = $this->entity_manager->get_metadata_factory();
+        if ($metadata_factory->get_loaded_metadata()) {
             throw new LogicException('DoctrineMetadataCacheWarmer must load metadata first, check priority of your warmers.');
         }
-
-        $metadataFactory->setCache($arrayAdapter);
-        $metadataFactory->getAllMetadata();
-
+        $metadata_factory->set_cache($array_adapter);
+        $metadata_factory->get_all_metadata();
         return true;
     }
 }

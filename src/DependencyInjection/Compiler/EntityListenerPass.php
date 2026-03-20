@@ -1,161 +1,118 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace Doctrine\Bundle\Doctrine_Bundle\Dependency_Injection\Compiler;
 
-namespace Doctrine\Bundle\DoctrineBundle\DependencyInjection\Compiler;
-
-use Doctrine\Bundle\DoctrineBundle\Mapping\ContainerEntityListenerResolver;
-use Doctrine\Bundle\DoctrineBundle\Mapping\EntityListenerServiceResolver;
-
+use Doctrine\Bundle\Doctrine_Bundle\Mapping\Container_Entity_Listener_Resolver;
+use Doctrine\Bundle\Doctrine_Bundle\Mapping\Entity_Listener_Service_Resolver;
 use function is_a;
 use function method_exists;
 use function sprintf;
-
-use Symfony\Component\DependencyInjection\ChildDefinition;
-use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
-use Symfony\Component\DependencyInjection\Compiler\ServiceLocatorTagPass;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-
-use Symfony\Component\DependencyInjection\Definition;
-use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
-use Symfony\Component\DependencyInjection\Reference;
-
+use Symfony\Component\Dependency_Injection\Child_Definition;
+use Symfony\Component\Dependency_Injection\Compiler\Compiler_Pass_Interface;
+use Symfony\Component\Dependency_Injection\Compiler\Service_Locator_Tag_Pass;
+use Symfony\Component\Dependency_Injection\Container_Builder;
+use Symfony\Component\Dependency_Injection\Definition;
+use Symfony\Component\Dependency_Injection\Exception\InvalidArgumentException;
+use Symfony\Component\Dependency_Injection\Reference;
 use function usort;
-
 /**
  * Class for Symfony bundles to register entity listeners
  *
  * @internal
  */
-final class EntityListenerPass implements CompilerPassInterface
+final class Entity_Listener_Pass implements Compiler_Pass_Interface
 {
-    public function process(ContainerBuilder $container): void
+    public function process(Container_Builder $container): void
     {
-        $lazyServiceReferencesByResolver = [];
-
-        $serviceTags = [];
-        foreach ($container->findTaggedServiceIds('doctrine.orm.entity_listener', true) as $id => $tags) {
+        $lazy_service_references_by_resolver = [];
+        $service_tags = [];
+        foreach ($container->find_tagged_service_ids('doctrine.orm.entity_listener', true) as $id => $tags) {
             foreach ($tags as $attributes) {
-                $serviceTags[] = [
-                    'serviceId' => $id,
-                    'attributes' => $attributes,
-                ];
+                $service_tags[] = ['serviceId' => $id, 'attributes' => $attributes];
             }
         }
-
-        usort($serviceTags, static fn (array $a, array $b): int => ($b['attributes']['priority'] ?? 0) <=> ($a['attributes']['priority'] ?? 0));
-
-        foreach ($serviceTags as $tag) {
-            $id            = $tag['serviceId'];
-            $attributes    = $tag['attributes'];
-            $name          = $attributes['entity_manager'] ?? $container->getParameter('doctrine.default_entity_manager');
-            $entityManager = sprintf('doctrine.orm.%s_entity_manager', $name);
-
-            if (! $container->hasDefinition($entityManager)) {
+        usort($service_tags, static fn(array $a, array $b): int => ($b['attributes']['priority'] ?? 0) <=> ($a['attributes']['priority'] ?? 0));
+        foreach ($service_tags as $tag) {
+            $id = $tag['serviceId'];
+            $attributes = $tag['attributes'];
+            $name = $attributes['entity_manager'] ?? $container->get_parameter('doctrine.default_entity_manager');
+            $entity_manager = sprintf('doctrine.orm.%s_entity_manager', $name);
+            if (!$container->has_definition($entity_manager)) {
                 continue;
             }
-
-            $resolverId = sprintf('doctrine.orm.%s_entity_listener_resolver', $name);
-
-            if (! $container->has($resolverId)) {
+            $resolver_id = sprintf('doctrine.orm.%s_entity_listener_resolver', $name);
+            if (!$container->has($resolver_id)) {
                 continue;
             }
-
-            $resolver = $container->findDefinition($resolverId);
-            $resolver->setPublic(true);
-
+            $resolver = $container->find_definition($resolver_id);
+            $resolver->set_public(true);
             if (isset($attributes['entity'])) {
-                $this->attachToListener($container, $name, $this->getConcreteDefinitionClass($container->findDefinition($id), $container, $id), $attributes);
+                $this->attach_to_listener($container, $name, $this->get_concrete_definition_class($container->find_definition($id), $container, $id), $attributes);
             }
-
-            $resolverClass                 = $this->getResolverClass($resolver, $container, $resolverId);
-            $resolverSupportsLazyListeners = is_a($resolverClass, EntityListenerServiceResolver::class, true);
-
-            $lazyByAttribute = isset($attributes['lazy']) && $attributes['lazy'];
-            if ($lazyByAttribute && ! $resolverSupportsLazyListeners) {
-                throw new InvalidArgumentException(sprintf(
-                    'Lazy-loaded entity listeners can only be resolved by a resolver implementing %s.',
-                    EntityListenerServiceResolver::class,
-                ));
+            $resolver_class = $this->get_resolver_class($resolver, $container, $resolver_id);
+            $resolver_supports_lazy_listeners = is_a($resolver_class, Entity_Listener_Service_Resolver::class, true);
+            $lazy_by_attribute = isset($attributes['lazy']) && $attributes['lazy'];
+            if ($lazy_by_attribute && !$resolver_supports_lazy_listeners) {
+                throw new InvalidArgumentException(sprintf('Lazy-loaded entity listeners can only be resolved by a resolver implementing %s.', Entity_Listener_Service_Resolver::class));
             }
-
-            if (! isset($attributes['lazy']) && $resolverSupportsLazyListeners || $lazyByAttribute) {
-                $listener = $container->findDefinition($id);
-
-                $resolver->addMethodCall('registerService', [$this->getConcreteDefinitionClass($listener, $container, $id), $id]);
-
+            if (!isset($attributes['lazy']) && $resolver_supports_lazy_listeners || $lazy_by_attribute) {
+                $listener = $container->find_definition($id);
+                $resolver->add_method_call('registerService', [$this->get_concrete_definition_class($listener, $container, $id), $id]);
                 // if the resolver uses the default class we will use a service locator for all listeners
-                if ($resolverClass === ContainerEntityListenerResolver::class) {
-                    if (! isset($lazyServiceReferencesByResolver[$resolverId])) {
-                        $lazyServiceReferencesByResolver[$resolverId] = [];
+                if ($resolver_class === Container_Entity_Listener_Resolver::class) {
+                    if (!isset($lazy_service_references_by_resolver[$resolver_id])) {
+                        $lazy_service_references_by_resolver[$resolver_id] = [];
                     }
-
-                    $lazyServiceReferencesByResolver[$resolverId][$id] = new Reference($id);
+                    $lazy_service_references_by_resolver[$resolver_id][$id] = new Reference($id);
                 } else {
-                    $listener->setPublic(true);
+                    $listener->set_public(true);
                 }
             } else {
-                $resolver->addMethodCall('register', [new Reference($id)]);
+                $resolver->add_method_call('register', [new Reference($id)]);
             }
         }
-
-        foreach ($lazyServiceReferencesByResolver as $resolverId => $listenerReferences) {
-            $container->findDefinition($resolverId)->setArgument(0, ServiceLocatorTagPass::register($container, $listenerReferences));
+        foreach ($lazy_service_references_by_resolver as $resolver_id => $listener_references) {
+            $container->find_definition($resolver_id)->set_argument(0, Service_Locator_Tag_Pass::register($container, $listener_references));
         }
     }
-
     /** @param array{entity: class-string, event?: ?string, method?: string} $attributes */
-    private function attachToListener(ContainerBuilder $container, string $name, string $class, array $attributes): void
+    private function attach_to_listener(Container_Builder $container, string $name, string $class, array $attributes): void
     {
-        $listenerId = sprintf('doctrine.orm.%s_listeners.attach_entity_listeners', $name);
-
-        if (! $container->has($listenerId)) {
+        $listener_id = sprintf('doctrine.orm.%s_listeners.attach_entity_listeners', $name);
+        if (!$container->has($listener_id)) {
             return;
         }
-
-        $args = [
-            $attributes['entity'],
-            $class,
-            $attributes['event'] ?? null,
-        ];
-
+        $args = [$attributes['entity'], $class, $attributes['event'] ?? null];
         if (isset($attributes['method'])) {
             $args[] = $attributes['method'];
-        } elseif (isset($attributes['event']) && ! method_exists($class, $attributes['event']) && method_exists($class, '__invoke')) {
+        } elseif (isset($attributes['event']) && !method_exists($class, $attributes['event']) && method_exists($class, '__invoke')) {
             $args[] = '__invoke';
         }
-
-        $container->findDefinition($listenerId)->addMethodCall('addEntityListener', $args);
+        $container->find_definition($listener_id)->add_method_call('addEntityListener', $args);
     }
-
-    private function getResolverClass(Definition $resolver, ContainerBuilder $container, string $id): string
+    private function get_resolver_class(Definition $resolver, Container_Builder $container, string $id): string
     {
-        $resolverClass = $this->getConcreteDefinitionClass($resolver, $container, $id);
-
-        if (str_starts_with($resolverClass, '%')) {
+        $resolver_class = $this->get_concrete_definition_class($resolver, $container, $id);
+        if (str_starts_with($resolver_class, '%')) {
             // resolve container parameter first
-            return $container->getParameterBag()->resolveValue($resolverClass);
+            return $container->get_parameter_bag()->resolve_value($resolver_class);
         }
-
-        return $resolverClass;
+        return $resolver_class;
     }
-
-    private function getConcreteDefinitionClass(Definition $definition, ContainerBuilder $container, string $id): string
+    private function get_concrete_definition_class(Definition $definition, Container_Builder $container, string $id): string
     {
-        $class = $definition->getClass();
+        $class = $definition->get_class();
         if ($class) {
             return $class;
         }
-
-        while ($definition instanceof ChildDefinition) {
-            $definition = $container->findDefinition($definition->getParent());
-
-            $class = $definition->getClass();
+        while ($definition instanceof Child_Definition) {
+            $definition = $container->find_definition($definition->get_parent());
+            $class = $definition->get_class();
             if ($class) {
                 return $class;
             }
         }
-
         throw new InvalidArgumentException(sprintf('The service "%s" must define its class.', $id));
     }
 }

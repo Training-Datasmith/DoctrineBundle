@@ -1,12 +1,11 @@
 <?php
 
-declare(strict_types=1);
-
-namespace Doctrine\Bundle\DoctrineBundle\Repository;
+declare (strict_types=1);
+namespace Doctrine\Bundle\Doctrine_Bundle\Repository;
 
 /**
  * This interface signals that your repository should be loaded from the container.
  */
-interface ServiceEntityRepositoryInterface
+interface Service_Entity_Repository_Interface
 {
 }

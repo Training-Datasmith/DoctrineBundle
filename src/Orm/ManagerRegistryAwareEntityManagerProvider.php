@@ -1,45 +1,29 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace Doctrine\Bundle\Doctrine_Bundle\Orm;
 
-namespace Doctrine\Bundle\DoctrineBundle\Orm;
-
-use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\Tools\Console\EntityManagerProvider;
-use Doctrine\Persistence\ManagerRegistry;
-
+use Doctrine\ORM\Entity_Manager_Interface;
+use Doctrine\ORM\Tools\Console\Entity_Manager_Provider;
+use Doctrine\Persistence\Manager_Registry;
 use function get_debug_type;
-
 use RuntimeException;
-
 use function sprintf;
-
-final readonly class ManagerRegistryAwareEntityManagerProvider implements EntityManagerProvider
+final readonly class Manager_Registry_Aware_Entity_Manager_Provider implements Entity_Manager_Provider
 {
-    public function __construct(
-        private ManagerRegistry $managerRegistry,
-    ) {
-    }
-
-    public function getDefaultManager(): EntityManagerInterface
+    public function __construct(private Manager_Registry $manager_registry)
     {
-        return $this->getManager($this->managerRegistry->getDefaultManagerName());
     }
-
-    public function getManager(string $name): EntityManagerInterface
+    public function get_default_manager(): Entity_Manager_Interface
     {
-        $em = $this->managerRegistry->getManager($name);
-
-        if ($em instanceof EntityManagerInterface) {
+        return $this->get_manager($this->manager_registry->get_default_manager_name());
+    }
+    public function get_manager(string $name): Entity_Manager_Interface
+    {
+        $em = $this->manager_registry->get_manager($name);
+        if ($em instanceof Entity_Manager_Interface) {
             return $em;
         }
-
-        throw new RuntimeException(
-            sprintf(
-                'Only managers of type "%s" are supported. Instance of "%s given.',
-                EntityManagerInterface::class,
-                get_debug_type($em),
-            ),
-        );
+        throw new RuntimeException(sprintf('Only managers of type "%s" are supported. Instance of "%s given.', Entity_Manager_Interface::class, get_debug_type($em)));
     }
 }

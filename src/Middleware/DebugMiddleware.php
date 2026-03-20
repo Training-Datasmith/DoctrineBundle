@@ -1,32 +1,25 @@
 <?php
 
-declare(strict_types=1);
-
-namespace Doctrine\Bundle\DoctrineBundle\Middleware;
+declare (strict_types=1);
+namespace Doctrine\Bundle\Doctrine_Bundle\Middleware;
 
 use Doctrine\DBAL\Driver as DriverInterface;
 use Doctrine\DBAL\Driver\Middleware;
-use Symfony\Bridge\Doctrine\Middleware\Debug\DebugDataHolder;
+use Symfony\Bridge\Doctrine\Middleware\Debug\Debug_Data_Holder;
 use Symfony\Bridge\Doctrine\Middleware\Debug\Driver;
 use Symfony\Component\Stopwatch\Stopwatch;
-
-class DebugMiddleware implements Middleware, ConnectionNameAwareInterface
+class Debug_Middleware implements Middleware, Connection_Name_Aware_Interface
 {
-    private string $connectionName = 'default';
-
-    public function __construct(
-        private readonly DebugDataHolder $debugDataHolder,
-        private readonly Stopwatch|null $stopwatch,
-    ) {
-    }
-
-    public function setConnectionName(string $name): void
+    private string $connection_name = 'default';
+    public function __construct(private readonly Debug_Data_Holder $debug_data_holder, private readonly Stopwatch|null $stopwatch)
     {
-        $this->connectionName = $name;
     }
-
-    public function wrap(DriverInterface $driver): DriverInterface
+    public function set_connection_name(string $name): void
     {
-        return new Driver($driver, $this->debugDataHolder, $this->stopwatch, $this->connectionName);
+        $this->connection_name = $name;
+    }
+    public function wrap(Driver_Interface $driver): Driver_Interface
+    {
+        return new Driver($driver, $this->debug_data_holder, $this->stopwatch, $this->connection_name);
     }
 }

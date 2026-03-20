@@ -1,24 +1,16 @@
 <?php
 
-declare(strict_types=1);
-
-namespace Doctrine\Bundle\DoctrineBundle\Attribute;
+declare (strict_types=1);
+namespace Doctrine\Bundle\Doctrine_Bundle\Attribute;
 
 use Attribute;
-
 /**
  * Service tag to autoconfigure entity listeners.
  */
 #[Attribute(Attribute::TARGET_CLASS | Attribute::IS_REPEATABLE)]
-class AsEntityListener
+class As_Entity_Listener
 {
-    public function __construct(
-        public string|null $event = null,
-        public string|null $method = null,
-        public bool|null $lazy = null,
-        public string|null $entityManager = null,
-        public string|null $entity = null,
-        public int|null $priority = null,
-    ) {
+    public function __construct(public string|null $event = null, public string|null $method = null, public bool|null $lazy = null, public string|null $entity_manager = null, public string|null $entity = null, public int|null $priority = null)
+    {
     }
 }

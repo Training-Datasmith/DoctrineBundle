@@ -1,122 +1,103 @@
 <?php
 
-declare(strict_types=1);
-
-namespace Doctrine\Bundle\DoctrineBundle;
+declare (strict_types=1);
+namespace Doctrine\Bundle\Doctrine_Bundle;
 
 use function assert;
 use function class_exists;
 use function dirname;
-
-use Doctrine\Bundle\DoctrineBundle\DependencyInjection\Compiler\CacheSchemaSubscriberPass;
-use Doctrine\Bundle\DoctrineBundle\DependencyInjection\Compiler\DbalSchemaFilterPass;
-use Doctrine\Bundle\DoctrineBundle\DependencyInjection\Compiler\EntityListenerPass;
-use Doctrine\Bundle\DoctrineBundle\DependencyInjection\Compiler\IdGeneratorPass;
-use Doctrine\Bundle\DoctrineBundle\DependencyInjection\Compiler\MiddlewaresPass;
-use Doctrine\Bundle\DoctrineBundle\DependencyInjection\Compiler\RemoveLoggingMiddlewarePass;
-use Doctrine\Bundle\DoctrineBundle\DependencyInjection\Compiler\RemoveProfilerControllerPass;
-use Doctrine\Bundle\DoctrineBundle\DependencyInjection\Compiler\ServiceRepositoryCompilerPass;
+use Doctrine\Bundle\Doctrine_Bundle\Dependency_Injection\Compiler\Cache_Schema_Subscriber_Pass;
+use Doctrine\Bundle\Doctrine_Bundle\Dependency_Injection\Compiler\Dbal_Schema_Filter_Pass;
+use Doctrine\Bundle\Doctrine_Bundle\Dependency_Injection\Compiler\Entity_Listener_Pass;
+use Doctrine\Bundle\Doctrine_Bundle\Dependency_Injection\Compiler\Id_Generator_Pass;
+use Doctrine\Bundle\Doctrine_Bundle\Dependency_Injection\Compiler\Middlewares_Pass;
+use Doctrine\Bundle\Doctrine_Bundle\Dependency_Injection\Compiler\Remove_Logging_Middleware_Pass;
+use Doctrine\Bundle\Doctrine_Bundle\Dependency_Injection\Compiler\Remove_Profiler_Controller_Pass;
+use Doctrine\Bundle\Doctrine_Bundle\Dependency_Injection\Compiler\Service_Repository_Compiler_Pass;
 use Doctrine\DBAL\Connection;
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bridge\Doctrine\DependencyInjection\CompilerPass\DoctrineValidationPass;
-use Symfony\Bridge\Doctrine\DependencyInjection\CompilerPass\RegisterDatePointTypePass;
-use Symfony\Bridge\Doctrine\DependencyInjection\CompilerPass\RegisterEventListenersAndSubscribersPass;
-use Symfony\Bridge\Doctrine\DependencyInjection\CompilerPass\RegisterUidTypePass;
-use Symfony\Bridge\Doctrine\DependencyInjection\Security\UserProvider\EntityFactory;
-use Symfony\Bundle\SecurityBundle\DependencyInjection\SecurityExtension;
+use Doctrine\ORM\Entity_Manager_Interface;
+use Symfony\Bridge\Doctrine\Dependency_Injection\Compiler_Pass\Doctrine_Validation_Pass;
+use Symfony\Bridge\Doctrine\Dependency_Injection\Compiler_Pass\Register_Date_Point_Type_Pass;
+use Symfony\Bridge\Doctrine\Dependency_Injection\Compiler_Pass\Register_Event_Listeners_And_Subscribers_Pass;
+use Symfony\Bridge\Doctrine\Dependency_Injection\Compiler_Pass\Register_Uid_Type_Pass;
+use Symfony\Bridge\Doctrine\Dependency_Injection\Security\User_Provider\Entity_Factory;
+use Symfony\Bundle\Security_Bundle\Dependency_Injection\Security_Extension;
 use Symfony\Component\Console\Application;
-use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
-
-use Symfony\Component\DependencyInjection\Compiler\PassConfig;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\HttpKernel\Bundle\Bundle;
-
+use Symfony\Component\Dependency_Injection\Compiler\Compiler_Pass_Interface;
+use Symfony\Component\Dependency_Injection\Compiler\Pass_Config;
+use Symfony\Component\Dependency_Injection\Container_Builder;
+use Symfony\Component\Http_Kernel\Bundle\Bundle;
 /** @final */
-class DoctrineBundle extends Bundle
+class Doctrine_Bundle extends Bundle
 {
-    public function build(ContainerBuilder $container): void
+    public function build(Container_Builder $container): void
     {
         parent::build($container);
-
-        $container->addCompilerPass(new class () implements CompilerPassInterface {
-            public function process(ContainerBuilder $container): void
+        $container->add_compiler_pass(new class implements Compiler_Pass_Interface
+        {
+            public function process(Container_Builder $container): void
             {
                 if ($container->has('session.handler')) {
                     return;
                 }
-
-                $container->removeDefinition('doctrine.orm.listeners.pdo_session_handler_schema_listener');
+                $container->remove_definition('doctrine.orm.listeners.pdo_session_handler_schema_listener');
             }
-        }, PassConfig::TYPE_BEFORE_OPTIMIZATION);
-
-        $container->addCompilerPass(new RegisterEventListenersAndSubscribersPass('doctrine.connections', 'doctrine.dbal.%s_connection.event_manager', 'doctrine'), PassConfig::TYPE_BEFORE_OPTIMIZATION);
-
-        if ($container->hasExtension('security')) {
-            $security = $container->getExtension('security');
-
-            if ($security instanceof SecurityExtension) {
-                $security->addUserProviderFactory(new EntityFactory('entity', 'doctrine.orm.security.user.provider'));
+        }, Pass_Config::TYPE_BEFORE_OPTIMIZATION);
+        $container->add_compiler_pass(new Register_Event_Listeners_And_Subscribers_Pass('doctrine.connections', 'doctrine.dbal.%s_connection.event_manager', 'doctrine'), Pass_Config::TYPE_BEFORE_OPTIMIZATION);
+        if ($container->has_extension('security')) {
+            $security = $container->get_extension('security');
+            if ($security instanceof Security_Extension) {
+                $security->add_user_provider_factory(new Entity_Factory('entity', 'doctrine.orm.security.user.provider'));
             }
         }
-
-        $container->addCompilerPass(new DoctrineValidationPass('orm'));
-        $container->addCompilerPass(new EntityListenerPass());
-        $container->addCompilerPass(new ServiceRepositoryCompilerPass());
-        $container->addCompilerPass(new IdGeneratorPass());
-        $container->addCompilerPass(new DbalSchemaFilterPass());
-        $container->addCompilerPass(new CacheSchemaSubscriberPass(), PassConfig::TYPE_BEFORE_REMOVING, -10);
-        $container->addCompilerPass(new RemoveProfilerControllerPass());
-        $container->addCompilerPass(new RemoveLoggingMiddlewarePass());
-        $container->addCompilerPass(new MiddlewaresPass());
-        $container->addCompilerPass(new RegisterUidTypePass());
-
-        if (! class_exists(RegisterDatePointTypePass::class)) {
+        $container->add_compiler_pass(new Doctrine_Validation_Pass('orm'));
+        $container->add_compiler_pass(new Entity_Listener_Pass());
+        $container->add_compiler_pass(new Service_Repository_Compiler_Pass());
+        $container->add_compiler_pass(new Id_Generator_Pass());
+        $container->add_compiler_pass(new Dbal_Schema_Filter_Pass());
+        $container->add_compiler_pass(new Cache_Schema_Subscriber_Pass(), Pass_Config::TYPE_BEFORE_REMOVING, -10);
+        $container->add_compiler_pass(new Remove_Profiler_Controller_Pass());
+        $container->add_compiler_pass(new Remove_Logging_Middleware_Pass());
+        $container->add_compiler_pass(new Middlewares_Pass());
+        $container->add_compiler_pass(new Register_Uid_Type_Pass());
+        if (!class_exists(Register_Date_Point_Type_Pass::class)) {
             return;
         }
-
-        $container->addCompilerPass(new RegisterDatePointTypePass());
+        $container->add_compiler_pass(new Register_Date_Point_Type_Pass());
     }
-
     public function shutdown(): void
     {
         if ($this->container === null) {
             return;
         }
-
         // Clear all entity managers to clear references to entities for GC
-        if ($this->container->hasParameter('doctrine.entity_managers')) {
-            foreach ($this->container->getParameter('doctrine.entity_managers') as $id) {
-                if (! $this->container->initialized($id)) {
+        if ($this->container->has_parameter('doctrine.entity_managers')) {
+            foreach ($this->container->get_parameter('doctrine.entity_managers') as $id) {
+                if (!$this->container->initialized($id)) {
                     continue;
                 }
-
-                $entityManager = $this->container->get($id);
-                assert($entityManager instanceof EntityManagerInterface);
-                $entityManager->clear();
+                $entity_manager = $this->container->get($id);
+                assert($entity_manager instanceof Entity_Manager_Interface);
+                $entity_manager->clear();
             }
         }
-
         // Close all connections to avoid reaching too many connections in the process when booting again later (tests)
-        if (! $this->container->hasParameter('doctrine.connections')) {
+        if (!$this->container->has_parameter('doctrine.connections')) {
             return;
         }
-
-        foreach ($this->container->getParameter('doctrine.connections') as $id) {
-            if (! $this->container->initialized($id)) {
+        foreach ($this->container->get_parameter('doctrine.connections') as $id) {
+            if (!$this->container->initialized($id)) {
                 continue;
             }
-
             $connection = $this->container->get($id);
             assert($connection instanceof Connection);
             $connection->close();
         }
     }
-
-    public function registerCommands(Application $application): void
+    public function register_commands(Application $application): void
     {
     }
-
-    public function getPath(): string
+    public function get_path(): string
     {
         return dirname(__DIR__);
     }
