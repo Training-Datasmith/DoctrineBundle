@@ -1,6 +1,6 @@
 services:
     cache.psr6:
-        class: Symfony\Component\Cache\Adapter\ArrayAdapter
+        class: Symfony\Component\Cache\Adapter\Array_Adapter
 
 doctrine:
     dbal:

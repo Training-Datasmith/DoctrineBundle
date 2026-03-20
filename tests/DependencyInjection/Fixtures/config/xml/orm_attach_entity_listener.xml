@@ -6,19 +6,19 @@
         </dbal>
         <orm default-entity-manager="default">
             <entity-listeners>
-                <entity class="ExternalBundles\Entities\FooEntity">
-                    <listener class="MyBundles\Listeners\FooEntityListener">
+                <entity class="External_Bundles\Entities\Foo_Entity">
+                    <listener class="My_Bundles\Listeners\Foo_Entity_Listener">
                         <event type="prePersist"/>
                         <event type="postPersist" method="postPersist"/>
                         <event type="postLoad" method="postLoadHandler"/>
                     </listener>
                 </entity>
-                <entity class="ExternalBundles\Entities\BarEntity">
-                    <listener class="MyBundles\Listeners\BarEntityListener">
+                <entity class="External_Bundles\Entities\Bar_Entity">
+                    <listener class="My_Bundles\Listeners\Bar_Entity_Listener">
                         <event type="prePersist" method="prePersist"/>
                         <event type="prePersist" method="prePersistHandler"/>
                     </listener>
-                    <listener class="MyBundles\Listeners\LogDeleteEntityListener">
+                    <listener class="My_Bundles\Listeners\Log_Delete_Entity_Listener">
                         <event type="postDelete" method="postDelete"/>
                     </listener>
                 </entity>

@@ -7,7 +7,7 @@
                         http://symfony.com/schema/dic/doctrine http://symfony.com/schema/dic/doctrine/doctrine-1.0.xsd">
 
     <services>
-        <service id="custom_entity_listener_resolver" class="Doctrine\Bundle\DoctrineBundle\Mapping\ContainerEntityListenerResolver" >
+        <service id="custom_entity_listener_resolver" class="Doctrine\Bundle\Doctrine_Bundle\Mapping\Container_Entity_Listener_Resolver" >
             <argument type="service" id="service_container"/>
         </service>
 

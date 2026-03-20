@@ -7,7 +7,7 @@
                         http://symfony.com/schema/dic/doctrine http://symfony.com/schema/dic/doctrine/doctrine-1.0.xsd">
 
     <srv:services>
-        <srv:service id="repository_factory" class="Doctrine\Bundle\DoctrineBundle\Repository\RepositoryFactory" />
+        <srv:service id="repository_factory" class="Doctrine\Bundle\Doctrine_Bundle\Repository\Repository_Factory" />
     </srv:services>
 
     <config>

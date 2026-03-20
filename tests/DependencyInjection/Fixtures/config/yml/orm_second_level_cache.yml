@@ -1,25 +1,25 @@
 services:
     my_service_region_driver:
-        class: Symfony\Component\Cache\Adapter\ArrayAdapter
+        class: Symfony\Component\Cache\Adapter\Array_Adapter
 
     my_service_logger1:
-        class: Doctrine\ORM\Cache\Logging\StatisticsCacheLogger
+        class: Doctrine\ORM\Cache\Logging\Statistics_Cache_Logger
 
     my_service_logger2:
-        class: Doctrine\ORM\Cache\Logging\StatisticsCacheLogger
+        class: Doctrine\ORM\Cache\Logging\Statistics_Cache_Logger
 
     my_service_region:
-        class: Doctrine\ORM\Cache\Region\DefaultRegion
+        class: Doctrine\ORM\Cache\Region\Default_Region
         arguments: ["my_service_region", "@my_service_region_driver", 3600]
 
     my_factory_config:
-        class: Doctrine\ORM\Cache\CacheConfiguration
+        class: Doctrine\ORM\Cache\Cache_Configuration
 
     my_factory_driver:
-        class: Symfony\Component\Cache\Adapter\ArrayAdapter
+        class: Symfony\Component\Cache\Adapter\Array_Adapter
 
     my_factory:
-        class: Doctrine\ORM\Cache\DefaultCacheFactory
+        class: Doctrine\ORM\Cache\Default_Cache_Factory
         arguments: ["@my_factory_config", "@my_factory_driver"]
 
 doctrine:

@@ -15,9 +15,9 @@
             <entity-manager name="default">
                 <mapping name="XmlBundle" />
                 <dql>
-                    <string-function name="test_string">Doctrine\Bundle\DoctrineBundle\Tests\DependencyInjection\TestStringFunction</string-function>
-                    <numeric-function name="test_numeric">Doctrine\Bundle\DoctrineBundle\Tests\DependencyInjection\TestNumericFunction</numeric-function>
-                    <datetime-function name="test_datetime">Doctrine\Bundle\DoctrineBundle\Tests\DependencyInjection\TestDatetimeFunction</datetime-function>
+                    <string-function name="test_string">Doctrine\Bundle\Doctrine_Bundle\Tests\Dependency_Injection\Test_String_Function</string-function>
+                    <numeric-function name="test_numeric">Doctrine\Bundle\Doctrine_Bundle\Tests\Dependency_Injection\Test_Numeric_Function</numeric-function>
+                    <datetime-function name="test_datetime">Doctrine\Bundle\Doctrine_Bundle\Tests\Dependency_Injection\Test_Datetime_Function</datetime-function>
                 </dql>
             </entity-manager>
         </orm>

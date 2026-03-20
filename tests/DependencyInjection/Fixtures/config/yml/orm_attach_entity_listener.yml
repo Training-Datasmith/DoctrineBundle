@@ -9,13 +9,13 @@ doctrine:
         entity_managers:
             default:
                 entity_listeners:
-                        ExternalBundles\Entities\FooEntity:
-                            MyBundles\Listeners\FooEntityListener:
+                        External_Bundles\Entities\Foo_Entity:
+                            My_Bundles\Listeners\Foo_Entity_Listener:
                                 prePersist:
                                 postPersist: [postPersist]
                                 postLoad: [postLoadHandler]
-                        ExternalBundles\Entities\BarEntity:
-                                MyBundles\Listeners\BarEntityListener:
+                        External_Bundles\Entities\Bar_Entity:
+                                My_Bundles\Listeners\Bar_Entity_Listener:
                                     prePersist: [prePersist, prePersistHandler]
-                                MyBundles\Listeners\LogDeleteEntityListener:
+                                My_Bundles\Listeners\Log_Delete_Entity_Listener:
                                     postDelete: [postDelete]

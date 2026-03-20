@@ -12,8 +12,8 @@
         </dbal>
 
         <orm>
-            <filter name="soft_delete" enabled="true" >Doctrine\Bundle\DoctrineBundle\Tests\DependencyInjection\TestFilter</filter>
-            <filter name="myFilter" enabled="true" class="Doctrine\Bundle\DoctrineBundle\Tests\DependencyInjection\TestFilter">
+            <filter name="soft_delete" enabled="true" >Doctrine\Bundle\Doctrine_Bundle\Tests\Dependency_Injection\Test_Filter</filter>
+            <filter name="myFilter" enabled="true" class="Doctrine\Bundle\Doctrine_Bundle\Tests\Dependency_Injection\Test_Filter">
                 <parameter name="myParameter">myValue</parameter>
                 <parameter name="mySecondParameter">mySecondValue</parameter>
             </filter>

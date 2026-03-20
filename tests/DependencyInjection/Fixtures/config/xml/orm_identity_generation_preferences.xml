@@ -14,10 +14,10 @@
         <orm default-entity-manager="em1">
             <entity-manager name="em1">
                 <mapping name="XmlBundle" />
-                <identity-generation-preference platform="Doctrine\DBAL\Platforms\PostgreSQLPlatform">identity</identity-generation-preference>
+                <identity-generation-preference platform="Doctrine\DBAL\Platforms\Postgre_SQL_Platform">identity</identity-generation-preference>
             </entity-manager>
             <entity-manager name="em2">
-                <identity-generation-preference platform="Doctrine\DBAL\Platforms\PostgreSQLPlatform">sequence</identity-generation-preference>
+                <identity-generation-preference platform="Doctrine\DBAL\Platforms\Postgre_SQL_Platform">sequence</identity-generation-preference>
                 <mapping name="XmlBundle" />
             </entity-manager>
         </orm>

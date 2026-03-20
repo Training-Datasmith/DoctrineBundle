@@ -12,7 +12,7 @@
         </dbal>
 
         <orm default-entity-manager="default">
-            <resolve-target-entity interface="Symfony\Component\Security\Core\User\UserInterface">MyUserClass</resolve-target-entity>
+            <resolve-target-entity interface="Symfony\Component\Security\Core\User\User_Interface">MyUserClass</resolve-target-entity>
         </orm>
     </config>
 </srv:container>

@@ -1,6 +1,6 @@
 services:
     entity_listener_resolver:
-        class: Doctrine\ORM\Mapping\DefaultEntityListenerResolver
+        class: Doctrine\ORM\Mapping\Default_Entity_Listener_Resolver
 
     entity_listener1:
         class: EntityListener

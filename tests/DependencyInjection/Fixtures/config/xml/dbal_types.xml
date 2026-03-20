@@ -8,7 +8,7 @@
 
     <config>
         <dbal default-connection="default">
-            <type name="test">Doctrine\Bundle\DoctrineBundle\Tests\DependencyInjection\TestType</type>
+            <type name="test">Doctrine\Bundle\Doctrine_Bundle\Tests\Dependency_Injection\Test_Type</type>
             <connection name="default" />
         </dbal>
     </config>

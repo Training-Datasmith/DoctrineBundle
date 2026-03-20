@@ -10,4 +10,4 @@ doctrine:
 
 services:
     repository_factory:
-        class: Doctrine\Bundle\DoctrineBundle\Repository\RepositoryFactory
+        class: Doctrine\Bundle\Doctrine_Bundle\Repository\Repository_Factory

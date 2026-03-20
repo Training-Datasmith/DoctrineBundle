@@ -7,19 +7,19 @@
                         http://symfony.com/schema/dic/doctrine http://symfony.com/schema/dic/doctrine/doctrine-1.0.xsd">
 
     <srv:services>
-        <srv:service id="my_service_logger1" class="Doctrine\ORM\Cache\Logging\StatisticsCacheLogger"/>
-        <srv:service id="my_service_logger2" class="Doctrine\ORM\Cache\Logging\StatisticsCacheLogger"/>
+        <srv:service id="my_service_logger1" class="Doctrine\ORM\Cache\Logging\Statistics_Cache_Logger"/>
+        <srv:service id="my_service_logger2" class="Doctrine\ORM\Cache\Logging\Statistics_Cache_Logger"/>
 
-        <srv:service id="my_service_region" class="Doctrine\ORM\Cache\Region\DefaultRegion">
+        <srv:service id="my_service_region" class="Doctrine\ORM\Cache\Region\Default_Region">
             <srv:argument type="service" id="my_service_region_driver"/>
             <srv:argument>3600</srv:argument>
         </srv:service>
 
-        <srv:service id="my_service_region_driver" class="Symfony\Component\Cache\Adapter\ArrayAdapter" />
+        <srv:service id="my_service_region_driver" class="Symfony\Component\Cache\Adapter\Array_Adapter" />
 
-        <srv:service id="my_factory_config" class="Doctrine\ORM\Cache\CacheConfiguration"/>
-        <srv:service id="my_factory_driver" class="Symfony\Component\Cache\Adapter\ArrayAdapter"/>
-        <srv:service id="my_factory" class="Doctrine\ORM\Cache\DefaultCacheFactory">
+        <srv:service id="my_factory_config" class="Doctrine\ORM\Cache\Cache_Configuration"/>
+        <srv:service id="my_factory_driver" class="Symfony\Component\Cache\Adapter\Array_Adapter"/>
+        <srv:service id="my_factory" class="Doctrine\ORM\Cache\Default_Cache_Factory">
             <srv:argument type="service" id="my_factory_config"/>
             <srv:argument type="service" id="my_factory_driver"/>
         </srv:service>

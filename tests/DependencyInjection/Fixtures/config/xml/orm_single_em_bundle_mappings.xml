@@ -14,7 +14,7 @@
         <orm validate-xml-mapping="true">
             <mapping name="AttributesBundle" type="attribute" />
             <mapping name="XmlBundle" dir="Resources/config/doctrine" alias="xml" />
-            <mapping name="manual" type="xml" prefix="Fixtures\Bundles\XmlBundle"
+            <mapping name="manual" type="xml" prefix="Fixtures\Bundles\Xml_Bundle"
                 dir="%kernel.root_dir%/tests/DependencyInjection/Fixtures/Bundles/XmlBundle/Resources/config/doctrine"
                 alias="TestAlias"
             />

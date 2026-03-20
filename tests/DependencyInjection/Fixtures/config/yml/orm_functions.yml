@@ -12,8 +12,8 @@ doctrine:
                     XmlBundle: ~
                 dql:
                     string_functions:
-                        test_string: Doctrine\Bundle\DoctrineBundle\Tests\DependencyInjection\TestStringFunction
+                        test_string: Doctrine\Bundle\Doctrine_Bundle\Tests\Dependency_Injection\Test_String_Function
                     numeric_functions:
-                        test_numeric: Doctrine\Bundle\DoctrineBundle\Tests\DependencyInjection\TestNumericFunction
+                        test_numeric: Doctrine\Bundle\Doctrine_Bundle\Tests\Dependency_Injection\Test_Numeric_Function
                     datetime_functions:
-                        test_datetime: Doctrine\Bundle\DoctrineBundle\Tests\DependencyInjection\TestDatetimeFunction
+                        test_datetime: Doctrine\Bundle\Doctrine_Bundle\Tests\Dependency_Injection\Test_Datetime_Function

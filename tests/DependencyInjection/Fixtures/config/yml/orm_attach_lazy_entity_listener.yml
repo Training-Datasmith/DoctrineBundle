@@ -1,6 +1,6 @@
 services:
     custom_entity_listener_resolver:
-        class: Doctrine\Bundle\DoctrineBundle\Mapping\ContainerEntityListenerResolver
+        class: Doctrine\Bundle\Doctrine_Bundle\Mapping\Container_Entity_Listener_Resolver
         arguments:
             - '@service_container'
 

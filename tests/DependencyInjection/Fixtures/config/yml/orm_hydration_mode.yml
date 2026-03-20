@@ -9,6 +9,6 @@ doctrine:
         entity_managers:
             default:
                 hydrators:
-                    test_hydrator: Symfony\Bundle\DoctrineBundle\Tests\DependencyInjection\TestHydrator
+                    test_hydrator: Symfony\Bundle\Doctrine_Bundle\Tests\Dependency_Injection\Test_Hydrator
                 mappings:
                     XmlBundle: ~

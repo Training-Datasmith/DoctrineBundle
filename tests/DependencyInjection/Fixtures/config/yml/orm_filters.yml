@@ -9,10 +9,10 @@ doctrine:
     orm:
         filters:
             soft_delete:
-                class: Doctrine\Bundle\DoctrineBundle\Tests\DependencyInjection\TestFilter
+                class: Doctrine\Bundle\Doctrine_Bundle\Tests\Dependency_Injection\Test_Filter
                 enabled: true
             myFilter:
-                class: Doctrine\Bundle\DoctrineBundle\Tests\DependencyInjection\TestFilter
+                class: Doctrine\Bundle\Doctrine_Bundle\Tests\Dependency_Injection\Test_Filter
                 enabled: true
                 parameters:
                     myParameter: myValue

@@ -12,9 +12,9 @@ doctrine:
                 mappings:
                     XmlBundle: ~
                 identity_generation_preferences:
-                    Doctrine\DBAL\Platforms\PostgreSQLPlatform: identity
+                    Doctrine\DBAL\Platforms\Postgre_SQL_Platform: identity
             em2:
                 mappings:
                     XmlBundle: ~
                 identity_generation_preferences:
-                    Doctrine\DBAL\Platforms\PostgreSQLPlatform: sequence
+                    Doctrine\DBAL\Platforms\Postgre_SQL_Platform: sequence

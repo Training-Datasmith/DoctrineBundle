@@ -13,7 +13,7 @@ services:
         public: true
 
     symfony.session:
-        class: 'Symfony\Component\HttpFoundation\Session\Storage\Handler\PdoSessionHandler'
+        class: 'Symfony\Component\Http_Foundation\Session\Storage\Handler\Pdo_Session_Handler'
         arguments:
             - ~
             - db_table: app_session

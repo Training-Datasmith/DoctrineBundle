@@ -1,6 +1,6 @@
 services:
     custom_entity_listener_resolver:
-        class: Doctrine\Bundle\DoctrineBundle\Tests\DependencyInjection\Fixtures\CustomEntityListenerServiceResolver
+        class: Doctrine\Bundle\Doctrine_Bundle\Tests\Dependency_Injection\Fixtures\Custom_Entity_Listener_Service_Resolver
         public: false
 
     entity_listener:
